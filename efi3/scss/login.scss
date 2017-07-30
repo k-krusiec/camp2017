@@ -6,23 +6,24 @@ body {
 }
 
 .logo {
-  position: relative;
-  .logo-text {
-    display: inline-block;
-    position: absolute;
-    right: 0;
-    padding: 27px 37px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    font-size: 4rem;
-    font-weight: 700;
-  }
-  span {
-    display: inline-block;
-    font-size: 2rem;
-    transform: translate(-50%, -70%);
-    font-weight: 400;
-  }
+  text-align: center;
+  min-width: 160px;
+  width: 100%;
+}
+
+.logo-text {
+  display: inline-block;
+  padding: 27px 37px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 4rem;
+  font-weight: 700;
+}
+span {
+  display: inline-block;
+  font-size: 2rem;
+  transform: translate(-50%, -70%);
+  font-weight: 400;
 }
 
 .login-page {

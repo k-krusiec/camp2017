@@ -170,13 +170,29 @@ input[type="submit"] {
 }
 
 .error {
-  border: 1px solid red;
+  border: 1px solid $red;
 }
 
 .error-box {
+  position: relative;
   text-align: left;
-  margin: -30px 0 10px;
-  font-size: 12px;
-  font-weight: 700;
-  color: red;
+  max-width: calc(100% - 33px);
+  top: -20px;
+  padding: 10px;
+  font-size: 13px;
+  background: rgba(255, 0, 0, 0.6);
+  border: 1px solid $red;
+  border-radius: 3px;
+}
+
+.error-box:before {
+  content: ' ';
+  position: absolute;
+  top: -8px;
+  left: 30px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid $red;
 }

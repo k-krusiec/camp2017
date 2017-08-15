@@ -2,11 +2,7 @@
   const passContainer = document.querySelector('.password');
   const passInput = document.querySelector('.password-field');
   const form = document.querySelector('.form');
-  const errorBox = document.createElement('p');
-  const errorMsg = {
-    'empty': 'To pole nie może być puste',
-    'toShort': 'To pole musi zawierać 5 znaków'
-  }
+  const errorBox = document.createElement('div');
 
   function addErrorBox() {
     errorBox.classList.add('error-box');
@@ -17,21 +13,35 @@
     e.preventDefault();
 
     let passValue = passInput.value;
+    comunicateApi(passValue);
 
-    if (passValue.length < 1) {
-      addErrorBox();
+    function showErrorMessage(response) {
+
       passInput.classList.add('error');
-      errorBox.innerHTML = errorMsg.empty;
-    } else if (passValue.length < 5) {
       addErrorBox();
-      passInput.classList.add('error');
-      errorBox.innerHTML = errorMsg.toShort;
-    } else {
-      passInput.classList.remove('error');
-      document.querySelector('.error-box').remove();
-      window.location.replace('dashboard.html');
+      errorBox.innerHTML = response.message;
+
     }
 
-  })
+    function comunicateApi(pass) {
+      $.ajax({
+        type: 'post',
+        data: {
+          login: 'efi',
+          password: pass
+        },
+        url: 'https://efigence-camp.herokuapp.com/api/login',
+        error: function(response) {
 
+          const responseObject = JSON.parse(response.responseText);
+          showErrorMessage(responseObject);
+
+        },
+        success: function(response) {
+          console.log(response);
+          window.location.replace('./dashboard.html');
+        }
+      });
+    }
+  })
 })();

@@ -8,9 +8,73 @@
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-    <main>
-      <a href="index.html">Back to login page.</a>
-    </main>
+    <div class="grid-container">
+      <header class="dashboard-header">
+          <div class="row">
+            <div class="dashboard-logo">
+              <a href="./dashboard.html">efi<span>3</span></a>
+            </div>
+            <div class="user-panel">
+              <img src="http://via.placeholder.com/160x160">
+              <span>Jan Kowalski</span>
+              <img src="http://via.placeholder.com/60x60">
+              <img src="http://via.placeholder.com/60x60">
+            </div>
+            <nav>
+              <ul>
+                <li><a href="#"><img src="http://via.placeholder.com/60x60">Home</a></li>
+                <li><a href="#"><img src="http://via.placeholder.com/60x60">Analyse</a></li>
+                <li><a href="#"><img src="http://via.placeholder.com/60x60">Plan</a></li>
+                <li><a href="#"><img src="http://via.placeholder.com/60x60">Earn</a></li>
+              </ul>
+            </nav>
+            <div class="options">
+              <img src="http://via.placeholder.com/100x100">
+              <img src="http://via.placeholder.com/100x100">
+            </div>
+          </div>
+      </header>
+      <main class="dashboard-main">
+          <div class="row">
+            <h1>Finance life stream</h1>
+            <p>Balance 7 200,34 PLN</p>
+            <p>Available funds 7 200,34 PLN</p>
+            <p>Scheduled payments 2 200,34 PLN</p>
+            <a href="#" class="button">Fast Pay</a>
+            <div>
+              <legendp>Add</legend>
+              <a href="#" class="button">Bank</a>
+              <a href="#" class="button">Payment</a>
+              <legend>Accounts analysis</legend>
+              <input type="radio" name="accounts-analysis" value="off" id="rb-off" checked><label for="rb-off">Off</label>
+              <input type="radio" name="accounts-analysis" value="on" id="rb-on"><label for="rb-on">On</label>
+            </div>
+            <div>
+              <img src="http://via.placeholder.com/1200x500">
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 large-6 columns">
+              <p>Products</p>
+              <img src="http://via.placeholder.com/250x100">
+              <img src="http://via.placeholder.com/250x100">
+              <img src="http://via.placeholder.com/250x100">
+              <img src="http://via.placeholder.com/250x100">
+              <img src="http://via.placeholder.com/250x100">
+            </div>
+            <div class="small-12 large-6 columns">
+              <p>History</p>
+              <img src="http://via.placeholder.com/500x50">
+              <img src="http://via.placeholder.com/500x50">
+              <img src="http://via.placeholder.com/500x50">
+              <img src="http://via.placeholder.com/500x50">
+              <img src="http://via.placeholder.com/500x50">
+              <img src="http://via.placeholder.com/500x50">
+              <img src="http://via.placeholder.com/500x50">
+            </div>
+          </div>
+      </main>
+    </div>
 
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/what-input/dist/what-input.js"></script>

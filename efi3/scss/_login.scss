@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&subset=latin-ext');
 
 body {
-  color: $white;
   font-family: 'Roboto Condensed', sans-serif;
 }
 
@@ -10,6 +9,7 @@ body {
   background-size: cover;
   padding: 3em 0;
   height: 100vh;
+  color: $white;
 }
 
 @media (max-width: 402px) {

@@ -1,3 +1,65 @@
-.dashboard-header{
-  background: $blue-light
+.dashboard-header {
+  background: $blue-light;
+  color: $white;
+}
+
+.dashboard-logo {
+  width: 94px;
+  margin-top: 40px;
+}
+
+.user-panel {
+  margin-top: 40px;
+  .dashboard-avatar {
+    border-radius: 5px;
+  }
+  .user-name {
+    display: inline-block;
+    font-size: 24px;
+  }
+  .user-icon {
+    width: 26px;
+  }
+}
+
+.header-icon-small {
+  width: 40px;
+  margin: 0 auto 10px;
+}
+
+.dashboard-menu {
+  margin: 0;
+  .menu-item {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 45px 30px;
+    &:hover {
+      background: black;
+      &:after {
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        content: '';
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: black;
+      }
+    }
+  }
+  a {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    color: $white;
+  }
+}
+
+.options {
+  padding: 65px 0 50px;
+  text-align: right;
 }

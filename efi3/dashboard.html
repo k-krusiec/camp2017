@@ -11,68 +11,140 @@
     <div class="grid-container">
       <header class="dashboard-header">
           <div class="row">
-            <div class="dashboard-logo">
-              <a href="./dashboard.html">efi<span>3</span></a>
+
+            <div class="small-1 columns">
+              <div class="dashboard-logo">
+                <a href="./dashboard.html"><img src="./images/efi3-logo-frame-white.png" alt="Logo"></a>
+              </div>
             </div>
-            <div class="user-panel">
-              <img src="http://via.placeholder.com/160x160">
-              <span>Jan Kowalski</span>
-              <img src="http://via.placeholder.com/60x60">
-              <img src="http://via.placeholder.com/60x60">
+
+            <div class="small-3 columns">
+              <div class="user-panel">
+                <img class="dashboard-avatar" src="./images/avatar.jpg" alt="Avatar">
+                <p class="user-name">Jan Kowalski</p>
+                <div class="user-info">
+                  <img class="user-icon" src="./images/mail-white.png" alt="Messages">
+                  <img class="user-icon" src="./images/gear-white.png" alt="Settings">
+                </div>
+              </div>
             </div>
-            <nav>
-              <ul>
-                <li><a href="#"><img src="http://via.placeholder.com/60x60">Home</a></li>
-                <li><a href="#"><img src="http://via.placeholder.com/60x60">Analyse</a></li>
-                <li><a href="#"><img src="http://via.placeholder.com/60x60">Plan</a></li>
-                <li><a href="#"><img src="http://via.placeholder.com/60x60">Earn</a></li>
-              </ul>
-            </nav>
-            <div class="options">
-              <img src="http://via.placeholder.com/100x100">
-              <img src="http://via.placeholder.com/100x100">
+
+            <div class="small-5 columns">
+              <nav>
+                <ul class="dashboard-menu">
+                  <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/home-white.png" alt="Home">Home</a></li>
+                  <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/analyse-white.png" alt="Analyse">Analyse</a></li>
+                  <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/calendar-white.png" alt="Plan">Plan</a></li>
+                  <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/cash-white.png" alt="Earn">Earn</a></li>
+                </ul>
+              </nav>
+            </div>
+
+            <div class="small-3 columns">
+              <div class="options">
+                <img class="header-icon-small" src="./images/loupe-white.png" alt="Search">
+                <img class="header-icon-small" src="./images/power-lipstic.png" alt="Logout">
+              </div>
             </div>
           </div>
       </header>
+
       <main class="dashboard-main">
-          <div class="row">
+        <div class="row">
+          <div class="small-12 columns">
             <h1>Finance life stream</h1>
-            <p>Balance 7 200,34 PLN</p>
-            <p>Available funds 7 200,34 PLN</p>
-            <p>Scheduled payments 2 200,34 PLN</p>
-            <a href="#" class="button">Fast Pay</a>
-            <div>
-              <legendp>Add</legend>
-              <a href="#" class="button">Bank</a>
-              <a href="#" class="button">Payment</a>
-              <legend>Accounts analysis</legend>
-              <input type="radio" name="accounts-analysis" value="off" id="rb-off" checked><label for="rb-off">Off</label>
-              <input type="radio" name="accounts-analysis" value="on" id="rb-on"><label for="rb-on">On</label>
-            </div>
-            <div>
-              <img src="http://via.placeholder.com/1200x500">
+          </div>
+          <div class="small-9 columns">
+            <div class="row">
+              <div class="small-4 columns">
+                <p>Balance</p>
+                <p><span>7 200,34</span> PLN</p>
+              </div>
+              <div class="small-4 columns">
+                <p>Available funds</p>
+                <p><span>7 200,34</span> PLN</p>
+              </div>
+              <div class="small-4 columns">
+                <p>Scheduled payments</p>
+                <p><span>2 200,34</span> PLN</p>
+                <a href="#" class="button">Fast Pay</a>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="small-12 large-6 columns">
-              <p>Products</p>
-              <img src="http://via.placeholder.com/250x100">
-              <img src="http://via.placeholder.com/250x100">
-              <img src="http://via.placeholder.com/250x100">
-              <img src="http://via.placeholder.com/250x100">
-              <img src="http://via.placeholder.com/250x100">
-            </div>
-            <div class="small-12 large-6 columns">
-              <p>History</p>
-              <img src="http://via.placeholder.com/500x50">
-              <img src="http://via.placeholder.com/500x50">
-              <img src="http://via.placeholder.com/500x50">
-              <img src="http://via.placeholder.com/500x50">
-              <img src="http://via.placeholder.com/500x50">
-              <img src="http://via.placeholder.com/500x50">
-              <img src="http://via.placeholder.com/500x50">
+          <div class="small-3 columns">
+            <legendp>Add</legend>
+            <a href="#" class="button">Bank</a>
+            <a href="#" class="button">Payment</a>
+            <legend>Accounts analysis</legend>
+            <input type="radio" name="accounts-analysis" value="off" id="rb-off" checked><label for="rb-off">Off</label>
+            <input type="radio" name="accounts-analysis" value="on" id="rb-on"><label for="rb-on">On</label>
+          </div>
+          <div>
+            <img src="http://via.placeholder.com/1200x500">
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 large-6 columns">
+            <p>Products</p>
+            <div class="products">
+              <div class="product-item">
+                <img src="./images/wallet-gray.png" alt="Wallets">
+                <p>Wallets [3] 500,00 PLN</p>
+              </div>
+              <div class="product-item">
+                <img src="./images/piggy-gray.png" alt="Deposits">
+                <p>Deposits [2] 10 000,00 PLN</p>
+              </div>
+              <div class="product-item">
+                <img src="./images/money-gray.png" alt="Accounts">
+                <p>Accounts 7 200,00 PLN</p>
+              </div>
+              <div class="product-item">
+                <img src="./images/chart-gray.png" alt="Funds">
+                <p>Funds [3] 7 000,00 PLN</p>
+              </div>
+              <div class="product-item">
+                <img src="./images/finger-gray.png" alt="Bank loans">
+                <p>Bank loans -127 000,00 PLN</p>
+              </div>
             </div>
           </div>
+          <div class="small-12 large-6 columns">
+            <p>History</p>
+            <div class="history-box">
+              <div class="history-item">
+                <p>29.06</p>
+                <p>Gas station Shell, Warsaw Woloska street... Gas</p>
+                <p><span>-100,00</span> PLN</p>
+              </div>
+              <div class="history-item">
+                <p>28.06</p>
+                <p>ATM withdrawal Cracow Bracka street... Cash</p>
+                <p><span>-50,00</span> PLN</p>
+              </div>
+              <div class="history-item">
+                <p>19.06</p>
+                <p>Invoice 548/12/1234 Salary</p>
+                <p><span>5 550,00</span> PLN</p>
+              </div>
+              <div class="history-item">
+                <p>16.06</p>
+                <p>CoffeeHeaven Food</p>
+                <p><span>-19,00</span> PLN</p>
+              </div>
+              <div class="history-item">
+                <p>16.06</p>
+                <p>Cienema City Bemowo Fun</p>
+                <p><span>-40,70</span> PLN</p>
+              </div>
+              <div class="history-item">
+                <p>11.06</p>
+                <p>Car Leasing Instalment</p>
+                <p><span>-9 700,00</span> PLN</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
 

@@ -37,6 +37,19 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .main-title,
+  .balance,
+  .payments {
+    display: none;
+  }
+
+  .dashboard-main .funds {
+    margin-top: 20px;
+    font-size: 1.5em;
+  }
+}
+
 .add-account {
   display: flex;
   flex-flow: row wrap;
@@ -55,6 +68,12 @@
     &:hover {
       background: darken($blue-light, 10%);
     }
+  }
+}
+
+@media (max-width: 1023px) {
+  .add-account {
+    display: none;
   }
 }
 
@@ -101,10 +120,41 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .custom-switch {
+    display: none;
+  }
+}
 
+.new-expense-btn {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .new-expense-btn {
+    display: block;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 20px;
+    min-width: 100px;
+    margin-top: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: $blue-light;
+    &:hover {
+      background: darken($blue-light, 10%);
+    }
+  }
+}
 
 .chart {
   margin: 40px 0 10px;
+}
+
+@media (max-width: 1023px) {
+  .chart {
+    margin: 20px 0;
+  }
 }
 
 .product-title,

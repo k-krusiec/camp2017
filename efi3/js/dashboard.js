@@ -18,7 +18,18 @@
     history: '.history-box'
   };
 
-  const searchItems = () => {
+  const showMobileMenu = () => {
+    const hamburgerMenu = document.querySelector('.menu-title');
+    const menu = document.querySelector('.mobile-menu');
+
+    hamburgerMenu.addEventListener('click', () => {
+      menu.classList.toggle('show');
+    })
+  };
+
+  showMobileMenu();
+
+  const showSearch = () => {
     const searchBtn = document.querySelector('.settings-search');
     const searchPanel = document.querySelector('.search');
     const searchInput = document.querySelector('.search-input');
@@ -27,16 +38,21 @@
       searchPanel.classList.remove('hidden');
       searchInput.focus();
     })
+  };
+
+  showSearch();
+
+  const hideSearch = () => {
+    const searchPanel = document.querySelector('.search');
+    const searchInput = document.querySelector('.search-input');
 
     searchPanel.addEventListener('focusout', () => {
       searchPanel.classList.add('hidden');
       searchInput.value = '';
-
     })
-
   };
 
-  searchItems();
+  hideSearch();
 
   const switchBtn = () => {
     const customSwitch = document.querySelector('.custom-switch-track');
@@ -117,7 +133,6 @@
 
     const historyContainer = document.querySelector(containers.history);
     const historyNotAvailable = document.querySelector(containers.historyNotAvailable);
-    console.log(historyContainer);
 
     $.get( apiUrl + endpoints,  data => {
       console.log(data);
@@ -257,7 +272,5 @@
   };
 
   addChart();
-
-
 
 })();

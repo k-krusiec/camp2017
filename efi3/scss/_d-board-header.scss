@@ -3,28 +3,40 @@
   color: $white;
 }
 
+.dashboard-header-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.dashboard-user,
+.dashboard-menu,
+.dashboard-settings {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 .dashboard-logo {
   width: 94px;
-  margin-top: 40px;
+  margin-right: 5px;
 }
 
-.user-panel {
-  margin-top: 40px;
-  .dashboard-avatar {
+.dashboard-user {
+  min-width: 30%;
+  .user-avatar {
     border-radius: 5px;
+    margin-right: 20px;
   }
   .user-name {
-    display: inline-block;
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: 300;
   }
-  .user-icon {
+  .user-icons {
     width: 26px;
+    margin-right: 20px;
   }
-}
-
-.header-icon-small {
-  width: 40px;
-  margin: 0 auto 10px;
 }
 
 .dashboard-menu {
@@ -35,31 +47,60 @@
     list-style: none;
     text-align: center;
     text-transform: uppercase;
-    padding: 45px 30px;
+    padding: 45px 0;
+    width: 110px;
+    .header-icon-small {
+      width: 40px;
+      margin: 0 auto;
+    }
+    a {
+      display: flex;
+      flex-flow: column;
+      text-align: center;
+      color: $white;
+    }
     &:hover {
-      background: black;
-      &:after {
+      background: $black;
+      &:before {
         position: absolute;
         bottom: -8px;
-        left: 50%;
         transform: translateX(-50%);
-        content: '';
         width: 20px;
         height: 20px;
         border-radius: 50%;
-        background: black;
+        background: $black;
+        content: '';
       }
     }
   }
-  a {
-    display: flex;
-    flex-flow: column;
-    text-align: center;
-    color: $white;
+}
+
+.dashboard-settings {
+  position: absolute;
+  right: 0;
+  .settings-search,
+  .settings-logout {
+    padding: 10px;
+  }
+  .settings-search {
+    border-right: 1px solid $silver;
+  }
+  .search-icon,
+  .logout-icon {
+    width: 40px;
   }
 }
 
-.options {
-  padding: 65px 0 50px;
-  text-align: right;
+.search {
+  position: absolute;
+  top: 40px;
+  right: 58px;
+  width: 60%;
+  .search-input {
+    height: 70px;
+    margin: 0;
+    padding: 5px 20px;
+    font-size: 2em;
+    border-radius: 5px;
+  }
 }

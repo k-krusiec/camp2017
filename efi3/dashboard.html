@@ -121,7 +121,7 @@
             </div>
             <div class="accounts-analysis hidden">
               <div class="row">
-                <div class="small-4 columns">
+                <div class="small-3 columns">
                   <div class="show-cash">
                     <span>Show</span>
                     <a href="#" class="button show-cash-btn">Income</a>
@@ -130,17 +130,24 @@
                   </div>
                   <div class="time-period">
                     <span>Choose time period</span>
-                    <p>Last 30 dAYS</p>
+                    <select class="time-dropdown" name="time-dropdown">
+                      <option value="1day">Last 1 day</option>
+                      <option value="7days">Last 7 days</option>
+                      <option value="30days">Last 30 days</option>
+                    </select>
                   </div>
                   <div class="sort-by">
                     <span>Sort by</span>
-                    <p>All CATEGORIES</p>
+                    <select class="sort-dropdown" name="sort-dropdown">
+                      <option value="all">All categories</option>
+                    </select>
                   </div>
-                  <div class="">
-                    Lower your expences by using 5% cacheback on VISA credit card <a href="#">Find Out</a>
+                  <div class="cash-tip">
+                    <img class="tip-icon" src="./images/finger-gray.png" alt="Tip">
+                    <p>Lower your expences by using 5% cacheback on VISA credit card <a href="#">Find Out</a></p>
                   </div>
                 </div>
-                <div class="small-8 columns">
+                <div class="small-9 columns">
                   <canvas id="myChart2"></canvas>
                 </div>
               </div>

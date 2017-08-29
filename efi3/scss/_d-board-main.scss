@@ -159,9 +159,47 @@
 }
 
 .accounts-analysis {
+  padding: 20px 0;
   .show-cash {
     display: flex;
     flex-flow: column;
+    margin-bottom: 20px;
+    a {
+      margin-bottom: 1px;
+      border-radius: 5px;
+      background: darken($silver, 10%);
+      text-transform: uppercase;
+      &:hover {
+        background: $blue-light;
+      }
+    }
+  }
+  .time-dropdown,
+  .sort-dropdown {
+    text-transform: uppercase;
+    border-radius: 5px;
+       background-image: url('../images/arrow-down-topaz.png');
+       padding-left: 15px;
+  }
+  .cash-tip {
+    padding: 20px;
+    border: 1px solid darken($silver, 20%);
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    .tip-icon {
+      width: 40px;
+      margin-right: 20px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .accounts-analysis {
+    display: none;
   }
 }
 
@@ -182,7 +220,6 @@
     display: flex;
     flex-flow: row;
     align-items: center;
-    // width: 49%;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;

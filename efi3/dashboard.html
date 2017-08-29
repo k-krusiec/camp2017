@@ -93,8 +93,10 @@
           <div class="small-5 large-3 columns">
             <div class="add-account">
               <span>Add</span>
-              <a href="#" class="button add-account-button">Bank</a>
-              <a href="#" class="button add-account-button">Payment</a>
+              <div>
+                <a href="#" class="button add-account-button">Bank</a>
+                <a href="#" class="button add-account-button">Payment</a>
+              </div>
             </div>
 
             <div class="custom-switch">
@@ -116,6 +118,32 @@
           <div class="small-12 columns">
             <div class="chart">
               <canvas id="myChart"></canvas>
+            </div>
+            <div class="accounts-analysis hidden">
+              <div class="row">
+                <div class="small-4 columns">
+                  <div class="show-cash">
+                    <span>Show</span>
+                    <a href="#" class="button show-cash-btn">Income</a>
+                    <a href="#" class="button show-cash-btn">Expences</a>
+                    <a href="#" class="button show-cash-btn">Balance</a>
+                  </div>
+                  <div class="time-period">
+                    <span>Choose time period</span>
+                    <p>Last 30 dAYS</p>
+                  </div>
+                  <div class="sort-by">
+                    <span>Sort by</span>
+                    <p>All CATEGORIES</p>
+                  </div>
+                  <div class="">
+                    Lower your expences by using 5% cacheback on VISA credit card <a href="#">Find Out</a>
+                  </div>
+                </div>
+                <div class="small-8 columns">
+                  <canvas id="myChart2"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>

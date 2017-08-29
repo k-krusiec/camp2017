@@ -53,11 +53,12 @@
 .add-account {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   font-size: 18px;
   margin: 60px 0 0 10px;
   .add-account-button {
+    display: inline-block;
     margin: 0;
     padding: 10px;
     width: 100px;
@@ -128,22 +129,22 @@
 
 .new-expense-btn {
   display: none;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  min-width: 100px;
+  margin-top: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: $blue-light;
+  &:hover {
+    background: darken($blue-light, 10%);
+  }
 }
 
 @media (max-width: 1023px) {
   .new-expense-btn {
     display: block;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 20px;
-    min-width: 100px;
-    margin-top: 20px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background: $blue-light;
-    &:hover {
-      background: darken($blue-light, 10%);
-    }
   }
 }
 
@@ -154,6 +155,13 @@
 @media (max-width: 1023px) {
   .chart {
     margin: 20px 0;
+  }
+}
+
+.accounts-analysis {
+  .show-cash {
+    display: flex;
+    flex-flow: column;
   }
 }
 
@@ -267,11 +275,26 @@
   .history-title {
     margin: 0;
     padding: 5px 20px;
-    background: $white;
     border-radius: 5px 0 0 5px;
     border-bottom: 1px solid $silver;
   }
+  .history-box,
+  .history-title {
+    background: lighten($silver, 10%);
+  }
+  .history-box {
+    font-size: 0.9em;
+  }
+  .history-box .history-item .history-date,
   .history-box .history-item .history-cash {
-    text-align: left;
+    padding: 0;
+  }
+  .history-day,
+  .history-month {
+    display: block;
+    margin: 0;
+  }
+  .history-month {
+    color: darken($silver, 20%);
   }
 }

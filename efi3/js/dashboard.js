@@ -57,15 +57,21 @@
   const switchBtn = () => {
     const customSwitch = document.querySelector('.custom-switch-track');
     const customSwitchKnob = document.querySelector('.custom-switch-knob');
+    const chartSection = document.querySelector('.chart');
+    const accountAnalysisSection = document.querySelector('.accounts-analysis');
 
     customSwitch.addEventListener('click', () => {
       let isChecked = customSwitch.hasAttribute('checked');
       if (!isChecked) {
         customSwitch.setAttribute('checked', 'true');
         customSwitchKnob.classList.add('custom-switch-on');
+        chartSection.classList.add('hidden');
+        accountAnalysisSection.classList.remove('hidden');
       } else {
         customSwitch.removeAttribute('checked');
         customSwitchKnob.classList.remove('custom-switch-on');
+        chartSection.classList.remove('hidden');
+        accountAnalysisSection.classList.add('hidden');
       }
     })
   };
@@ -144,17 +150,17 @@
         return `
           <div class="history-item">
             <div class="row">
-              <div class="small-12 large-1 columns">
+              <div class="small-1 columns">
                 <p class="history-date">${formatDate(data.date)}</p>
               </div>
-              <div class="small-12 large-7 columns">
+              <div class="small-7 columns">
                 <div class="history-info">
                   <p class="history-description">${data.description}</p>
                   <p class="history-category">${data.category}</p>
                   ${addHistoryIcon(data.category)}
                 </div>
               </div>
-              <div class="small-12 large-4 columns">
+              <div class="small-4 columns">
                 <p class="history-cash">${formatHistoryAmount(addSeparator(data.amount), data.status)}${data.currency}</p>
               </div>
             </div>
@@ -229,8 +235,30 @@
   };
 
   const formatDate = (val) => {
+    let date;
     let value = val.split('-').reverse();
-    return value[0] + '.' + value[1];
+    let historyDate = {
+      day: value[0],
+      month: value[1],
+      year: value[2]
+    }
+    if (matchMedia) {
+      const mq = window.matchMedia("(min-width: 1023px)");
+      mq.addListener(WidthChange);
+      WidthChange(mq);
+    }
+
+    // media query change
+    function WidthChange(mq) {
+      if (mq.matches) {
+        date = historyDate.day + '.' + historyDate.month;
+      } else {
+        date = '<span class="history-day">' + historyDate.day + '</span><span class="history-month">' + historyDate.month + '</span>';
+      }
+
+    }
+
+    return date;
   };
 
   const formatHistoryAmount = (val, statuses) => {
@@ -272,5 +300,33 @@
   };
 
   addChart();
+
+  const addPieChart = () => {
+    var ctx = document.getElementById("myChart2");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["0", "3", "7", "11", "14", "21", "25"],
+            datasets: [{
+                data: [11000, 5000, 10000, 15000, 5000, 2000, 2000],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+  };
+
+  addPieChart();
 
 })();

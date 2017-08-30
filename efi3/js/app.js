@@ -1,49 +1,57 @@
 (function() {
-  const passContainer = document.querySelector('.password');
-  const passInput = document.querySelector('.password-field');
-  const form = document.querySelector('.form');
-  const errorBox = document.createElement('div');
 
-  function addErrorBox() {
-    errorBox.classList.add('error-box');
-    passContainer.after(errorBox);
-  }
+  const submit = () => {
+    const submitBtn = document.querySelector('.submit');
+    submitBtn.addEventListener('click', e => {
+      e.preventDefault();
+      comunicateApi();
+    })
+  };
 
-  form.addEventListener('click', e => {
-    e.preventDefault();
+  const getPassword = () => {
+    const password = document.querySelector('.password-field');
+    return password;
+  };
 
-    let passValue = passInput.value;
-    comunicateApi(passValue);
-
-    function showErrorMessage(response) {
-
-      passInput.classList.add('error');
-      addErrorBox();
-      errorBox.innerHTML = response.message;
-
-    }
-
-    function comunicateApi(pass) {
+  const comunicateApi = () => {
       $.ajax({
         type: 'post',
         data: {
           login: 'efi',
-          password: pass
+          password: getPassword().value
         },
         url: 'https://efigence-camp.herokuapp.com/api/login',
-        error: function(response) {
-
+        error: (response) => {
           const responseObject = JSON.parse(response.responseText);
-          showErrorMessage(responseObject);
-
+          killErrorBox();
+          showErrorMessage(responseObject)
         },
-        success: function(response) {
-          console.log(response);
+        success: (response) => {
           window.location.replace('./dashboard.html');
         }
       });
-    }
+    };
 
-  })
+    const addErrorBox = (error) => {
+      const passContainer = document.querySelector('.password');
+      const errorBox = document.createElement('div');
+      errorBox.classList.add('error-box');
+      passContainer.after(errorBox);
+      errorBox.innerHTML = error;
+    };
+
+    const showErrorMessage = (response) => {
+      getPassword().classList.add('error');
+      addErrorBox(response.message);
+    };
+
+    const killErrorBox = () => {
+      const errorBox = document.querySelector('.error-box');
+      if (errorBox !== null) {
+        errorBox.parentNode.removeChild(errorBox);
+      }
+    };
+
+    submit();
 
 })();

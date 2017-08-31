@@ -4,19 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efi3 - dashboard</title>
-    <link  href="bower_components/datepicker/dist/datepicker.css" rel="stylesheet">
+    <title>Efi3 - transer</title>
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
     <div class="grid-container">
-      <header class="dashboard-header">
+      <header class="header">
         <div class="row">
-          <div class="dashboard-header-desktop">
-            <div class="dashboard-logo">
+          <div class="header-desktop">
+            <div class="logo">
               <a href="./dashboard.html"><img src="./images/efi3-logo-frame-white.png" alt="Logo"></a>
             </div>
-            <div class="dashboard-user">
+            <div class="user">
               <img class="user-avatar" src="./images/avatar.jpg" alt="Avatar">
               <div class="user-box">
                 <p class="user-name">Jan Kowalski</p>
@@ -25,14 +24,14 @@
               </div>
             </div>
             <nav>
-              <ul class="dashboard-menu">
+              <ul class="menu">
                 <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/home-white.png" alt="Home">Home</a></li>
                 <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/analyse-white.png" alt="Analyse">Analyse</a></li>
                 <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/calendar-white.png" alt="Plan">Plan</a></li>
                 <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/cash-white.png" alt="Earn">Earn</a></li>
               </ul>
             </nav>
-            <div class="dashboard-settings">
+            <div class="settings">
               <div class="settings-search">
                 <img class="search-icon" src="./images/loupe-white.png" alt="Search">
               </div>
@@ -42,7 +41,7 @@
               <input class="search-input" type="text" name="search">
             </div>
           </div>
-          <div class="dashboard-header-mobile">
+          <div class="header-mobile">
             <div class="mobile-container">
               <p class="menu-title"><a href="#" class="hamburger-menu">&#9776;</a></p>
               <div class="mobile-logo">
@@ -65,8 +64,7 @@
         </div>
       </header>
 
-    <main class="transfer-main">
-      <form class="form" action="transfer.html" method="post">
+      <main class="transfer-main">
           <div class="row">
             <div class="small-12 columns">
               <a href="#" class="back-btn">
@@ -74,143 +72,172 @@
               </a>
             </div>
           </div>
+          <form class="form" action="transfer.html" method="post">
           <div class="row">
             <div class="small-12 columns">
               <div class="account-custom-selector">
-                <img src="http://via.placeholder.com/40x40" alt="">
+                <img class="id-icon" src="http://via.placeholder.com/40x40" alt="">
                 <div class="current-account">
                   <p>Current account</p>
                   <p>33 1234 5678 2233 0000 8373 7756</p>
                 </div>
-                <p><span>2 917,50</span> PLN</p>
-                <img src="http://via.placeholder.com/20x20" alt="">
+                <p class="amount"><span>2 917,50</span> PLN</p>
+                <img class="more-icon" src="./images/arrow-down-topaz.png" alt="More">
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>Type</span>
-            </div>
-            <div class="small-10 columns">
-              <div>
-                <img src="http://via.placeholder.com/30x30" alt="">
-                <p>Add the account from which you draw funds</p>
+          <div class="account-type">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">Type</p>
               </div>
-              <div>
-                <input type="radio" id="type-radio1" name="type" checked>
-                <label for="type-radio1">Country</label>
-                <input type="radio" id="type-radio2" name="type">
-                <label for="type-radio2">Own</label>
-                <input type="radio" id="type-radio3" name="type">
-                <label for="type-radio3">Currencies</label>
-                <input type="radio" id="type-radio4" name="type">
-                <label for="type-radio4">ZUS</label>
-                <input type="radio" id="type-radio5" name="type">
-                <label for="type-radio5">TAX</label>
-                <input type="radio" id="type-radio6" name="type">
-                <label for="type-radio6">Gsm</label>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>Recipient</span>
-            </div>
-            <div class="small-10 columns">
-              <div>
-                <input type="text" name="search" placeholder="Search for a recipient , contractor or customer">
-                <img src="http://via.placeholder.com/30x30" alt="">
+              <div class="small-9 columns">
+                <div class="add-from">
+                  <img src="http://via.placeholder.com/30x30" alt="">
+                  <p>Add the account from which you draw funds</p>
+                </div>
+                <div class="type-radio-group">
+
+                  <input type="radio" id="radio-country" name="type" checked>
+                  <label class="radio-country" for="radio-country">Country</label>
+
+                  <input type="radio" id="radio-own" name="type">
+                  <label class="radio-own" for="radio-own">Own</label>
+
+                  <input type="radio" id="radio-currencies" name="type">
+                  <label class="radio-currencies" for="radio-currencies">Currencies</label>
+
+                  <input type="radio" id="radio-zus" name="type">
+                  <label class="radio-zus" for="radio-zus">ZUS</label>
+
+                  <input type="radio" id="radio-tax" name="type">
+                  <label class="radio-tax" for="radio-tax">TAX</label>
+
+                  <input type="radio" id="radio-gsm" name="type">
+                  <label class="radio-gsm" for="radio-gsm">GSM</label>
+                </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>Where</span>
-            </div>
-            <div class="small-10 columns">
-              <div>
-                <input type="radio" id="where-radio1" name="where" checked>
-                <label for="where-radio1">Account</label>
-                <input type="radio" id="where-radio2" name="where">
-                <label for="where-radio2">Facebook</label>
-                <input type="radio" id="where-radio3" name="where">
-                <label for="where-radio3">Phone</label>
-                <input type="radio" id="where-radio4" name="where">
-                <label for="where-radio4">E-mail</label>
-                <input type="radio" id="where-radio5" name="where">
-                <label for="where-radio5">By phone</label>
+          <div class="recipient">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">Recipient</p>
+              </div>
+              <div class="small-9 columns">
+                <div class="search-box">
+                  <input type="text" name="search" placeholder="Search for a recipient, contractor or customer">
+                  <a href="#"><img src="http://via.placeholder.com/30x30" alt=""></a>
+                </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>Number</span>
-            </div>
-            <div class="small-10 columns">
-              <input type="text" name="account-number">
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>Sum</span>
-            </div>
-            <div class="small-10 columns">
-              <input type="text" name="sum">
-              <select name="currency">
-                <option value="pln">PLN</option>
-                <option value="eur">EUR</option>
-                <option value="usd">USD</option>
-              </select>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>When</span>
-            </div>
-            <div class="small-10 columns">
-              <input type="date" name="date">
-              <!-- <input data-toggle="datepicker"> -->
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>Title</span>
-            </div>
-            <div class="small-10 columns">
-              <input type="text" name="title">
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-2 columns">
-              <span>Type of transfer</span>
-            </div>
-            <div class="small-10 columns">
-              <div>
-                <input type="radio" id="type-of-radio1" name="type-of-transfer" checked>
-                <label for="type-of-radio1"><span>Normaly</span> about 2 days</label>
-                <input type="radio" id="type-of-radio2" name="type-of-transfer">
-                <label for="type-of-radio2"><span>Express Eliksir</span> 15 min</label>
-                <input type="radio" id="type-of-radio3" name="type-of-transfer">
-                <label for="type-of-radio3"><span>Sorbnet</span> 2 hours</label>
-                <img src="http://via.placeholder.com/30x30" alt="">
+          <div class="where">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">Where</p>
+              </div>
+              <div class="small-9 columns">
+                <div>
+                  <input type="radio" id="where-radio1" name="where" checked>
+                  <label for="where-radio1">Account</label>
+                  <input type="radio" id="where-radio2" name="where">
+                  <label for="where-radio2">Facebook</label>
+                  <input type="radio" id="where-radio3" name="where">
+                  <label for="where-radio3">Phone</label>
+                  <input type="radio" id="where-radio4" name="where">
+                  <label for="where-radio4">E-mail</label>
+                  <input type="radio" id="where-radio5" name="where">
+                  <label for="where-radio5">By phone</label>
+                </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="small-10 small-offset-2 columns">
-              <input type="submit" name="submit" value="Continue">
+
+          <div class="account-number">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">Number</p>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" name="account-number">
+              </div>
             </div>
           </div>
+
+          <div class="sum">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">Sum</p>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" name="sum">
+                <select name="currency">
+                  <option value="pln">PLN</option>
+                  <option value="eur">EUR</option>
+                  <option value="usd">USD</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="when">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">When</p>
+              </div>
+              <div class="small-9 columns">
+                <input type="date" name="date">
+                <!-- <input data-toggle="datepicker"> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="title">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">Title</p>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" name="title">
+              </div>
+            </div>
+          </div>
+
+          <div class="type-of-transfer">
+            <div class="row">
+              <div class="small-3 columns">
+                <p class="form-label">Type of transfer</p>
+              </div>
+              <div class="small-9 columns">
+                <div>
+                  <input type="radio" id="type-of-radio1" name="type-of-transfer" checked>
+                  <label for="type-of-radio1"><span>Normaly</span> about 2 days</label>
+                  <input type="radio" id="type-of-radio2" name="type-of-transfer">
+                  <label for="type-of-radio2"><span>Express Eliksir</span> 15 min</label>
+                  <input type="radio" id="type-of-radio3" name="type-of-transfer">
+                  <label for="type-of-radio3"><span>Sorbnet</span> 2 hours</label>
+                  <img src="http://via.placeholder.com/30x30" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="submit">
+            <div class="row">
+              <div class="small-9 small-offset-3 columns">
+                <input type="submit" name="submit" value="Continue">
+              </div>
+            </div>
+          </div>
+
+
         </form>
       </main>
-
     </div>
 
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/what-input/dist/what-input.js"></script>
     <script src="bower_components/foundation-sites/dist/js/foundation.js"></script>
-
-    <script src="bower_components/datepicker/dist/datepicker.js"></script>
     <script src="js/transfer.js"></script>
   </body>
 </html>

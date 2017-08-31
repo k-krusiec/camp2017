@@ -1,0 +1,216 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efi3 - dashboard</title>
+    <link  href="bower_components/datepicker/dist/datepicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body>
+    <div class="grid-container">
+      <header class="dashboard-header">
+        <div class="row">
+          <div class="dashboard-header-desktop">
+            <div class="dashboard-logo">
+              <a href="./dashboard.html"><img src="./images/efi3-logo-frame-white.png" alt="Logo"></a>
+            </div>
+            <div class="dashboard-user">
+              <img class="user-avatar" src="./images/avatar.jpg" alt="Avatar">
+              <div class="user-box">
+                <p class="user-name">Jan Kowalski</p>
+                <a href="#"><img class="user-icons" src="./images/mail-white.png" alt="Messages"></a>
+                <a href="#"><img class="user-icons" src="./images/gear-white.png" alt="User settings"></a>
+              </div>
+            </div>
+            <nav>
+              <ul class="dashboard-menu">
+                <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/home-white.png" alt="Home">Home</a></li>
+                <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/analyse-white.png" alt="Analyse">Analyse</a></li>
+                <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/calendar-white.png" alt="Plan">Plan</a></li>
+                <li class="menu-item"><a href="#"><img class="header-icon-small" src="./images/cash-white.png" alt="Earn">Earn</a></li>
+              </ul>
+            </nav>
+            <div class="dashboard-settings">
+              <div class="settings-search">
+                <img class="search-icon" src="./images/loupe-white.png" alt="Search">
+              </div>
+              <a href="./index.html" class="settings-logout"><img class="logout-icon" src="./images/power-lipstic.png" alt="Logout"></a>
+            </div>
+            <div class="search hidden">
+              <input class="search-input" type="text" name="search">
+            </div>
+          </div>
+          <div class="dashboard-header-mobile">
+            <div class="mobile-container">
+              <p class="menu-title"><a href="#" class="hamburger-menu">&#9776;</a></p>
+              <div class="mobile-logo">
+                <a href="./dashboard.html"><img src="./images/efi3-logo-white.png" alt="Logo"></a>
+              </div>
+              <div class="mobile-messages">
+                <a href="#"><img class="user-icons" src="./images/mail-white.png" alt="Messages"></a>
+              </div>
+            </div>
+            <nav>
+              <ul class="mobile-menu">
+                <li class="mobile-menu-item"><a href="#">Home</a></li>
+                <li class="mobile-menu-item"><a href="#">Analyse</a></li>
+                <li class="mobile-menu-item"><a href="#">Plan</a></li>
+                <li class="mobile-menu-item"><a href="#">Earn</a></li>
+                <li class="mobile-menu-item"><a href="./index.html">Logout</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+    <main class="transfer-main">
+      <form class="form" action="transfer.html" method="post">
+          <div class="row">
+            <div class="small-12 columns">
+              <a href="#" class="back-btn">
+                <img src="http://via.placeholder.com/40x40" alt="Back">
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
+              <div class="account-custom-selector">
+                <img src="http://via.placeholder.com/40x40" alt="">
+                <div class="current-account">
+                  <p>Current account</p>
+                  <p>33 1234 5678 2233 0000 8373 7756</p>
+                </div>
+                <p><span>2 917,50</span> PLN</p>
+                <img src="http://via.placeholder.com/20x20" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>Type</span>
+            </div>
+            <div class="small-10 columns">
+              <div>
+                <img src="http://via.placeholder.com/30x30" alt="">
+                <p>Add the account from which you draw funds</p>
+              </div>
+              <div>
+                <input type="radio" id="type-radio1" name="type" checked>
+                <label for="type-radio1">Country</label>
+                <input type="radio" id="type-radio2" name="type">
+                <label for="type-radio2">Own</label>
+                <input type="radio" id="type-radio3" name="type">
+                <label for="type-radio3">Currencies</label>
+                <input type="radio" id="type-radio4" name="type">
+                <label for="type-radio4">ZUS</label>
+                <input type="radio" id="type-radio5" name="type">
+                <label for="type-radio5">TAX</label>
+                <input type="radio" id="type-radio6" name="type">
+                <label for="type-radio6">Gsm</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>Recipient</span>
+            </div>
+            <div class="small-10 columns">
+              <div>
+                <input type="text" name="search" placeholder="Search for a recipient , contractor or customer">
+                <img src="http://via.placeholder.com/30x30" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>Where</span>
+            </div>
+            <div class="small-10 columns">
+              <div>
+                <input type="radio" id="where-radio1" name="where" checked>
+                <label for="where-radio1">Account</label>
+                <input type="radio" id="where-radio2" name="where">
+                <label for="where-radio2">Facebook</label>
+                <input type="radio" id="where-radio3" name="where">
+                <label for="where-radio3">Phone</label>
+                <input type="radio" id="where-radio4" name="where">
+                <label for="where-radio4">E-mail</label>
+                <input type="radio" id="where-radio5" name="where">
+                <label for="where-radio5">By phone</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>Number</span>
+            </div>
+            <div class="small-10 columns">
+              <input type="text" name="account-number">
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>Sum</span>
+            </div>
+            <div class="small-10 columns">
+              <input type="text" name="sum">
+              <select name="currency">
+                <option value="pln">PLN</option>
+                <option value="eur">EUR</option>
+                <option value="usd">USD</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>When</span>
+            </div>
+            <div class="small-10 columns">
+              <!-- <input type="date" name="date"> -->
+              <input data-toggle="datepicker">
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>Title</span>
+            </div>
+            <div class="small-10 columns">
+              <input type="text" name="title">
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-2 columns">
+              <span>Type of transfer</span>
+            </div>
+            <div class="small-10 columns">
+              <div>
+                <input type="radio" id="type-of-radio1" name="type-of-transfer" checked>
+                <label for="type-of-radio1"><span>Normaly</span> about 2 days</label>
+                <input type="radio" id="type-of-radio2" name="type-of-transfer">
+                <label for="type-of-radio2"><span>Express Eliksir</span> 15 min</label>
+                <input type="radio" id="type-of-radio3" name="type-of-transfer">
+                <label for="type-of-radio3"><span>Sorbnet</span> 2 hours</label>
+                <img src="http://via.placeholder.com/30x30" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-10 small-offset-2 columns">
+              <input type="submit" name="submit" value="Continue">
+            </div>
+          </div>
+        </form>
+      </main>
+
+    </div>
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/what-input/dist/what-input.js"></script>
+    <script src="bower_components/foundation-sites/dist/js/foundation.js"></script>
+
+    <script src="bower_components/datepicker/dist/datepicker.js"></script>
+    <script src="js/transfer.js"></script>
+  </body>
+</html>

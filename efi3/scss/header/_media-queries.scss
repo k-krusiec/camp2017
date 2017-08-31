@@ -1,0 +1,65 @@
+@media (max-width: 1023px) {
+  .header-desktop {
+    display: none;
+  }
+
+  .header-mobile {
+    display: block;
+    width: 100%;
+  }
+
+  .mobile-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .menu-title {
+      display: inline-block;
+      font-size: 2em;
+      padding: 20px;
+      margin: 0;
+
+      .hamburger-menu {
+        color: $white;
+      }
+    }
+
+    .mobile-logo {
+      width: 50px;
+    }
+
+    .mobile-messages {
+      width: 30px;
+      margin-right: 20px;
+    }
+  }
+
+  .mobile-menu {
+    display: none;
+    list-style: none;
+    margin: 0;
+  }
+
+  .show {
+    display: block;
+    padding: 1px 0;
+    background: $white;
+
+    .mobile-menu-item {
+      font-size: 20px;
+      text-transform: uppercase;
+      display: block;
+      padding: 10px 20px;
+      background: $white;
+
+      &:hover {
+        background: $silver;
+      }
+    }
+
+    a {
+      color: $black;
+    }
+  }
+}

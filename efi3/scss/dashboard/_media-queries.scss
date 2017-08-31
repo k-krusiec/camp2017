@@ -1,0 +1,66 @@
+@media (max-width: 1023px) {
+  .main-title,
+  .balance,
+  .payments {
+    display: none;
+  }
+
+  .dashboard-main .funds {
+    margin-top: 20px;
+    font-size: 1.5em;
+  }
+
+  .add-account {
+    display: none;
+  }
+
+  .custom-switch {
+    display: none;
+  }
+
+  .new-expense-btn {
+    display: block;
+  }
+
+  .chart {
+    margin: 20px 0;
+  }
+
+  .accounts-analysis {
+    display: none;
+  }
+
+  .product-title {
+    display: none;
+  }
+  .product-type,
+  .product-price {
+    display: inline-block;
+  }
+
+  .history-title {
+    margin: 0;
+    padding: 5px 20px;
+    border-radius: 5px 0 0 5px;
+    border-bottom: 1px solid $silver;
+  }
+  .history-box,
+  .history-title {
+    background: lighten($silver, 10%);
+  }
+  .history-box {
+    font-size: 0.9em;
+  }
+  .history-box .history-item .history-date,
+  .history-box .history-item .history-cash {
+    padding: 0;
+  }
+  .history-day,
+  .history-month {
+    display: block;
+    margin: 0;
+  }
+  .history-month {
+    color: darken($silver, 20%);
+  }
+}

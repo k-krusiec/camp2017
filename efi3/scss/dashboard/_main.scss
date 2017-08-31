@@ -1,27 +1,33 @@
 .dashboard-main {
   background: $silver;
   padding-bottom: 40px;
+
   .main-title {
     padding: 30px 0 10px;
     font-size: 4em;
     font-weight: 300;
   }
+
   .summary {
     font-size: 1.7em;
     font-weight: 300;
+
     .summary-title,
     .summary-info {
       margin: 0;
       line-height: 20px;
+
       &:last-of-type {
         display: inline-block;
       }
     }
+
     .summary-balance,
     .summary-funds,
     .summary-payments {
       font-weight: 700;
     }
+
     .summary-button {
       display: inline-block;
       text-transform: uppercase;
@@ -30,23 +36,11 @@
       border-radius: 5px;
       margin: 0;
       padding: 10px;
+
       &:hover {
         background: darken($blue-light, 10%);
       }
     }
-  }
-}
-
-@media (max-width: 1023px) {
-  .main-title,
-  .balance,
-  .payments {
-    display: none;
-  }
-
-  .dashboard-main .funds {
-    margin-top: 20px;
-    font-size: 1.5em;
   }
 }
 
@@ -57,6 +51,7 @@
   align-items: center;
   font-size: 18px;
   margin: 60px 0 0 10px;
+
   .add-account-button {
     display: inline-block;
     margin: 0;
@@ -66,21 +61,17 @@
     border-radius: 5px;
     background: $blue-light;
     font-size: 14px;
+
     &:hover {
       background: darken($blue-light, 10%);
     }
   }
 }
 
-@media (max-width: 1023px) {
-  .add-account {
-    display: none;
-  }
-}
-
 .custom-switch {
   font-size: 18px;
   margin: 50px 0 0 20px;
+
   .custom-switch-track {
     position: relative;
     background: $white;
@@ -90,6 +81,7 @@
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;
+
     .custom-switch-knob {
       position: absolute;
       width: 48px;
@@ -100,10 +92,12 @@
       background: $silver;
       transition: .4s;
     }
+
     .custom-switch-on {
       transform: translateX(50px);
       background: $dark-lime-green;
     }
+
     &:before {
       content: 'Off';
       position: absolute;
@@ -111,6 +105,7 @@
       left: 14px;
       z-index: 1;
     }
+
     &:after {
       content: 'On';
       position: absolute;
@@ -118,12 +113,6 @@
       right: 16px;
       z-index: 1;
     }
-  }
-}
-
-@media (max-width: 1023px) {
-  .custom-switch {
-    display: none;
   }
 }
 
@@ -137,14 +126,9 @@
   padding: 5px 10px;
   border-radius: 5px;
   background: $blue-light;
+
   &:hover {
     background: darken($blue-light, 10%);
-  }
-}
-
-@media (max-width: 1023px) {
-  .new-expense-btn {
-    display: block;
   }
 }
 
@@ -152,54 +136,47 @@
   margin: 40px 0 10px;
 }
 
-@media (max-width: 1023px) {
-  .chart {
-    margin: 20px 0;
-  }
-}
+
 
 .accounts-analysis {
   padding: 20px 0;
+
   .show-cash {
     display: flex;
     flex-flow: column;
     margin-bottom: 20px;
+
     a {
       margin-bottom: 1px;
       border-radius: 5px;
       background: darken($silver, 10%);
       text-transform: uppercase;
+
       &:hover {
         background: $blue-light;
       }
     }
   }
+
   .time-dropdown,
   .sort-dropdown {
     text-transform: uppercase;
     border-radius: 5px;
-       background-image: url('../images/arrow-down-topaz.png');
-       padding-left: 15px;
+    background-image: url('../images/arrow-down-topaz.png');
+    padding-left: 15px;
   }
+
   .cash-tip {
     padding: 20px;
     border: 1px solid darken($silver, 20%);
     display: flex;
     flex-flow: row;
     align-items: center;
+
     .tip-icon {
       width: 40px;
       margin-right: 20px;
     }
-    p {
-      margin: 0;
-    }
-  }
-}
-
-@media (max-width: 1023px) {
-  .accounts-analysis {
-    display: none;
   }
 }
 
@@ -216,6 +193,7 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+
   .product-item {
     display: flex;
     flex-flow: row;
@@ -224,34 +202,28 @@
     padding: 10px;
     border-radius: 5px;
     background: $white;
+
     .product-icon {
       width: 50px;
       padding: 10px 0;
       margin: 0 10px;
     }
+
     .product-type,
     .product-price {
       margin: 0;
     }
+
     &:hover {
       background: $blue-light;
     }
   }
+
   .not-available {
     width: 100%;
     background: $white;
     border-radius: 5px;
     padding: 20px 25px;
-  }
-}
-
-@media (max-width: 1023px) {
-  .product-title {
-    display: none;
-  }
-  .product-type,
-  .product-price {
-    display: inline-block;
   }
 }
 
@@ -262,76 +234,55 @@
   width: 100%;
   height: 400px;
   overflow: auto;
+
   .history-item {
     padding: 10px 0;
     border-bottom: 1px solid $silver;
-    p {
-      margin: 0;
-    }
+
     .history-date,
     .history-cash {
       padding: 15px 0;
     }
+
     .history-cash {
       text-align: right;
     }
+
     .history-category {
       display: inline-block;
       margin-right: 5px;
     }
+
     .income,
     .outcome {
       font-weight: 700;
     }
+
     .income {
       color: $green
     }
+
     .cash-ok-button {
       margin: 0;
       padding: 3px 7px;
       background: $blue-light;
       text-transform: uppercase;
+
       &:hover {
         background: darken($blue-light, 10%);
       }
     }
+
     .history-icon {
       width: 14px;
     }
   }
+
   .not-available {
     width: 100%;
     background: $white;
     border-radius: 5px;
     margin: 0;
     padding: 10px;
-  }
-}
-
-@media (max-width: 1023px) {
-  .history-title {
-    margin: 0;
-    padding: 5px 20px;
-    border-radius: 5px 0 0 5px;
-    border-bottom: 1px solid $silver;
-  }
-  .history-box,
-  .history-title {
-    background: lighten($silver, 10%);
-  }
-  .history-box {
-    font-size: 0.9em;
-  }
-  .history-box .history-item .history-date,
-  .history-box .history-item .history-cash {
-    padding: 0;
-  }
-  .history-day,
-  .history-month {
-    display: block;
-    margin: 0;
-  }
-  .history-month {
-    color: darken($silver, 20%);
   }
 }

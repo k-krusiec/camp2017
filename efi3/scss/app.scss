@@ -54,7 +54,17 @@
 @include motion-ui-transitions;
 @include motion-ui-animations;
 
-@import 'variables';
-@import 'login';
-@import 'd-board-header';
-@import 'd-board-main';
+@import 'general/variables';
+@import 'general/main';
+
+@import 'login/main';
+@import 'login/media-queries';
+
+@import 'header/main';
+@import 'header/media-queries';
+
+@import 'dashboard/main';
+@import 'dashboard/media-queries';
+
+@import 'transfer/main';
+@import 'transfer/media-queries';

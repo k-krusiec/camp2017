@@ -68,7 +68,7 @@
           <div class="row">
             <div class="small-12 columns">
               <a href="#" class="back-btn">
-                <img src="http://via.placeholder.com/40x40" alt="Back">
+                <img class="id-icon" src="./assets/back-arrow-gray.svg" alt="Back">
               </a>
             </div>
           </div>
@@ -76,7 +76,7 @@
           <div class="row">
             <div class="small-12 columns">
               <div class="account-custom-selector">
-                <img class="id-icon" src="http://via.placeholder.com/40x40" alt="">
+                <img class="id-icon" src="./assets/id-card-gray.svg" alt="Account select">
                 <div class="current-account">
                   <p>Current account</p>
                   <p>33 1234 5678 2233 0000 8373 7756</p>
@@ -93,7 +93,7 @@
               </div>
               <div class="small-9 columns">
                 <div class="add-from">
-                  <img src="http://via.placeholder.com/30x30" alt="">
+                  <img src="./assets/add-btn-white.svg" alt="Add">
                   <p>Add the account from which you draw funds</p>
                 </div>
                 <div class="type-radio-group">
@@ -127,7 +127,7 @@
               <div class="small-9 columns">
                 <div class="search-box">
                   <input type="text" name="search" placeholder="Search for a recipient, contractor or customer">
-                  <a href="#"><img src="http://via.placeholder.com/30x30" alt=""></a>
+                  <a href="#"><img src="./assets/phone-book-blue.svg" alt="Add"></a>
                 </div>
               </div>
             </div>
@@ -139,16 +139,21 @@
               </div>
               <div class="small-9 columns">
                 <div>
-                  <input type="radio" id="where-radio1" name="where" checked>
-                  <label for="where-radio1">Account</label>
-                  <input type="radio" id="where-radio2" name="where">
-                  <label for="where-radio2">Facebook</label>
-                  <input type="radio" id="where-radio3" name="where">
-                  <label for="where-radio3">Phone</label>
-                  <input type="radio" id="where-radio4" name="where">
-                  <label for="where-radio4">E-mail</label>
-                  <input type="radio" id="where-radio5" name="where">
-                  <label for="where-radio5">By phone</label>
+
+                  <input class="custom-radio-input" type="radio" id="radio-account" name="where" checked>
+                  <label class="custom-radio-label" for="radio-account">Account</label>
+
+                  <input class="custom-radio-input" type="radio" id="radio-facebook" name="where">
+                  <label class="custom-radio-label" for="radio-facebook">Facebook</label>
+
+                  <input class="custom-radio-input" type="radio" id="radio-phone" name="where">
+                  <label class="custom-radio-label" for="radio-phone">Phone</label>
+
+                  <input class="custom-radio-input" type="radio" id="radio-email" name="where">
+                  <label class="custom-radio-label" for="radio-email">E-mail</label>
+
+                  <input class="custom-radio-input" type="radio" id="radio-by-phone" name="where">
+                  <label class="custom-radio-label" for="radio-by-phone">By phone</label>
                 </div>
               </div>
             </div>
@@ -211,13 +216,16 @@
               </div>
               <div class="small-9 columns">
                 <div>
-                  <input type="radio" id="type-of-radio1" name="type-of-transfer" checked>
-                  <label for="type-of-radio1"><span>Normaly</span> about 2 days</label>
-                  <input type="radio" id="type-of-radio2" name="type-of-transfer">
-                  <label for="type-of-radio2"><span>Express Eliksir</span> 15 min</label>
-                  <input type="radio" id="type-of-radio3" name="type-of-transfer">
-                  <label for="type-of-radio3"><span>Sorbnet</span> 2 hours</label>
-                  <img src="http://via.placeholder.com/30x30" alt="">
+                  <input class="custom-radio-input" type="radio" id="type-of-radio1" name="type-of-transfer" checked>
+                  <label class="custom-radio-label" for="type-of-radio1"><span>Normaly</span> about 2 days</label>
+
+                  <input class="custom-radio-input" type="radio" id="type-of-radio2" name="type-of-transfer">
+                  <label class="custom-radio-label" for="type-of-radio2"><span>Express Eliksir</span> 15 min</label>
+
+                  <input class="custom-radio-input" type="radio" id="type-of-radio3" name="type-of-transfer">
+                  <label class="custom-radio-label" for="type-of-radio3"><span>Sorbnet</span> 2 hours</label>
+
+                  <img src="./assets/question-mark-gray.svg" alt="Add">
                 </div>
               </div>
             </div>

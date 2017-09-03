@@ -63,7 +63,6 @@
           </div>
         </div>
       </header>
-
       <main class="transfer-main">
           <div class="row">
             <div class="small-12 columns">
@@ -126,14 +125,14 @@
               </div>
             </div>
           </div>
-          <div class="recipient">
+          <div id="recipient" class="recipient">
             <div class="row">
               <div class="small-3 columns">
                 <p class="form-label">Recipient</p>
               </div>
               <div class="small-9 columns">
                 <div class="search-box">
-                  <input type="text" name="search" placeholder="Search for a recipient, contractor or customer">
+                  <input class="recipient-input" type="text" name="search" placeholder="Search for a recipient, contractor or customer">
                   <a href="#"><img src="./assets/phone-book-blue.svg" alt="Add"></a>
                 </div>
               </div>
@@ -146,53 +145,49 @@
               </div>
               <div class="small-9 columns">
                 <div>
-
                   <input class="custom-radio-input" type="radio" id="radio-account" name="where" checked>
                   <label class="custom-radio-label" for="radio-account">Account</label>
-
                   <input class="custom-radio-input" type="radio" id="radio-facebook" name="where">
                   <label class="custom-radio-label" for="radio-facebook">Facebook</label>
-
                   <input class="custom-radio-input" type="radio" id="radio-phone" name="where">
                   <label class="custom-radio-label" for="radio-phone">Phone</label>
-
                   <input class="custom-radio-input" type="radio" id="radio-email" name="where">
                   <label class="custom-radio-label" for="radio-email">E-mail</label>
-
                   <input class="custom-radio-input" type="radio" id="radio-by-phone" name="where">
                   <label class="custom-radio-label" for="radio-by-phone">By phone</label>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="account-number">
+          <div id="account-number" class="account-number">
             <div class="row">
               <div class="small-3 columns">
                 <p class="form-label">Number</p>
               </div>
               <div class="small-9 columns">
-                <input type="text" name="account-number">
+                <div>
+                  <input class="acount-number-input" type="text" name="account-number">
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="sum">
+          <div id="sum" class="sum">
             <div class="row">
               <div class="small-3 columns">
                 <p class="form-label">Sum</p>
               </div>
               <div class="small-9 columns">
-                <input type="text" name="sum">
-                <select name="currency">
-                  <option value="pln">PLN</option>
-                  <option value="eur">EUR</option>
-                  <option value="usd">USD</option>
-                </select>
+                <div>
+                  <input class="sum-input" type="text" name="sum" value="0,00">
+                  <select name="currency">
+                    <option value="pln">PLN</option>
+                    <option value="eur">EUR</option>
+                    <option value="usd">USD</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-
           <div class="when">
             <div class="row">
               <div class="small-3 columns">
@@ -204,18 +199,18 @@
               </div>
             </div>
           </div>
-
-          <div class="title">
+          <div id="title" class="title">
             <div class="row">
               <div class="small-3 columns">
                 <p class="form-label">Title</p>
               </div>
               <div class="small-9 columns">
-                <input type="text" name="title">
+                <div>
+                  <input class="title-input" type="text" name="title">
+                </div>
               </div>
             </div>
           </div>
-
           <div class="type-of-transfer">
             <div class="row">
               <div class="small-3 columns">
@@ -225,13 +220,10 @@
                 <div>
                   <input class="custom-radio-input" type="radio" id="type-of-radio1" name="type-of-transfer" checked>
                   <label class="custom-radio-label" for="type-of-radio1"><span>Normaly</span> about 2 days</label>
-
                   <input class="custom-radio-input" type="radio" id="type-of-radio2" name="type-of-transfer">
                   <label class="custom-radio-label" for="type-of-radio2"><span>Express Eliksir</span> 15 min</label>
-
                   <input class="custom-radio-input" type="radio" id="type-of-radio3" name="type-of-transfer">
                   <label class="custom-radio-label" for="type-of-radio3"><span>Sorbnet</span> 2 hours</label>
-
                   <img src="./assets/question-mark-gray.svg" alt="Add">
                 </div>
               </div>
@@ -240,12 +232,10 @@
           <div class="submit">
             <div class="row">
               <div class="small-9 small-offset-3 columns">
-                <input type="submit" name="submit" value="Continue">
+                <input class="submit" type="submit" name="submit" value="Continue">
               </div>
             </div>
           </div>
-
-
         </form>
       </main>
     </div>

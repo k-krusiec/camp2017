@@ -141,7 +141,7 @@
       .radio-zus:after {
         content: '';
         position: absolute;
-        top: 20px;
+        top: 18px;
         left: 10px;
         width: 50px;
         height: 50px;
@@ -149,18 +149,18 @@
       }
 
       .radio-country:after {
-        background: url('../assets/phone-white.svg') center center no-repeat;
-        margin-left: 3px;
+        background: url('../images/svg/country.svg') center center no-repeat;
+        margin-left: 2px;
       }
 
       .radio-own:after {
-        background: url('../assets/phone-white.svg') center center no-repeat;
-        margin-left: 3px;
+        background: url('../images/svg/own.svg') center center no-repeat;
+        margin-left: 2px;
       }
 
       .radio-currencies:after {
-        background: url('../assets/phone-white.svg') center center no-repeat;
-        margin-left: 3px;
+        background: url('../images/svg/currencies.svg') center center no-repeat;
+        margin-left: 2px;
       }
 
       .radio-zus:after {
@@ -168,7 +168,7 @@
         color: $white;
         font-size: 22px;
         font-weight: 700;
-        margin-top: 6px;
+        margin-top: 8px;
       }
 
       .radio-tax:after {
@@ -176,13 +176,13 @@
         color: $white;
         font-size: 27px;
         font-weight: 700;
-        margin-top: 2px;
+        margin-top: 4px;
 
       }
 
       .radio-gsm:after {
-        background: url('../assets/phone-white.svg') center center no-repeat;
-        margin-left: 3px;
+        background: url('../images/svg/gsm.svg') center center no-repeat;
+        margin-top: 2px;
       }
     }
   }

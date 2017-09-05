@@ -25,6 +25,7 @@
               ev.target !== customSelect.children[1].children[1] &&
               ev.target !== customSelect.children[2] &&
               ev.target !== customSelect.children[2].children[0] &&
+              ev.target !== customSelect.children[2].children[1] &&
               ev.target !== customSelect.children[3] &&
               ev.target !== customSelect.children[4]) {
             hideAccountList();
@@ -47,24 +48,27 @@
   const customSelectItem = () => {
     const customSelect = document.querySelector(".custom-account-selector");
     const accountListItem = document.querySelectorAll('.account-list-item');
-    console.log(customSelect);
+    // console.log(customSelect);
     let accountNumber = customSelect.children[1].children[1];
     let accountAmount = customSelect.children[2];
-    // let activeSelectionData = {
-    //   accountNumber: '',
-    //   accountAmount: '',
-    //   accountCurrency: ''
-    // }
 
     for (let i = 0, l = accountListItem.length; i < l; i++) {
       accountListItem[i].addEventListener('click', function() {
         accountNumber.innerText = this.children[0].innerText;
         accountAmount.innerHTML = this.children[1].innerHTML;
-        // activeSelectionData.accountNumber = this.children[0].innerText;
-        // activeSelectionData.accountAmount = this.children[1].children[0].innerText;
-        // activeSelectionData.accountCurrency = this.children[1].children[1].innerText;
       })
     }
+  };
+
+  const getCustomSelectData = () => {
+    const customSelect = document.querySelector('.custom-account-selector');
+    let activeSelectionData = {
+      accountNumber: customSelect.children[1].children[1].innerText,
+      accountAmount: customSelect.children[2].children[0].innerText,
+      accountCurrency: customSelect.children[2].children[1].innerText
+    }
+
+    return activeSelectionData;
   };
 
   const errorClasses = {
@@ -82,7 +86,11 @@
       toShort: 'Account number is to short',
       toLong: 'Account number is to long',
     },
-    badValue: 'Incorrect value',
+    sum: {
+      badValue: 'Incorrect value',
+      differentValues: 'Please check again if the amount is correct',
+      notEnoughCash: 'You do not have enough funds in your account'
+    },
     title: {
       badFormat: 'Incorrect title format',
       toLong: 'Title should be no longer than 150 characters',
@@ -177,23 +185,42 @@
     }
     accNumberData.format = accNumberArr.join('');
     return accNumberData;
-  }
+  };
 
   const validateSum = (errClass, errMsg, sumData) => {
     const sum = document.querySelector('#sum');
     const sumInput = document.querySelector('.sum-input');
-    const customSelect = document.querySelector('.custom-account-selector');
     let sumValue = sumInput.value;
+
+    console.log(getCustomSelectData());
+    console.log(parseFloat(getCustomSelectData().accountAmount.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2));
+
+    console.log(sumData);
 
     getErrorElement(errClass.sum);
 
-    if (sumValue === '0,00') {
-      addErrTemplate(errClass.sum, errMsg.badValue, sum);
+    if (!sumValue) {
+      addErrTemplate(errClass.sum, errMsg.empty, sum);
+    } else if (parseFloat(sumValue).toFixed(2) === '0.00') {
+      addErrTemplate(errClass.sum, errMsg.sum.badValue, sum);
+    } else if (sumData.initAmount.replace(/\s/g,'').replace(/\,/g,'.') !== sumData.value) {
+      addErrTemplate(errClass.sum, errMsg.sum.differentValues, sum);
+    } else if (parseFloat(getCustomSelectData().accountAmount.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2) < sumData.value) {
+      addErrTemplate(errClass.sum, errMsg.sum.notEnoughCash, sum);
     }
+
+    sumInput.value = sumData.format;
   };
 
   const getSumValue = () => {
     const sumInput = document.querySelector('.sum-input');
+
+    sumInput.addEventListener('keypress', function(event) {
+      // numbers, space, period and comma only allowed
+      if (event.keyCode !== 44 && event.keyCode !== 46 && event.keyCode !== 32 && (event.keyCode < 48 || event.keyCode > 57)) {
+        event.returnValue = false;
+      }
+    })
 
     sumInput.addEventListener('focusout', () => {
 
@@ -203,17 +230,64 @@
   };
 
   const formatSum = (sumInput) => {
+    const sumRegexp = /^(\D)+$/
     let sumInputData = {
       length: 0,
-      format: ''
+      format: '',
+      value: 0,
+      initAmount: ''
     };
     let sumInputVal = sumInput.value;
-    sumInputVal = sumInputVal.trim().replace(/\s\s+/g, ' ');
-    sumInputData.length = sumInputVal.length;
-    sumInputData.format = sumInputVal;
+    sumInputData.initAmount = sumInputVal;
 
+    if (sumInputVal.length !== 0 && sumInputVal.match(sumRegexp) === null) {
+      if (sumInputVal.indexOf('.') !== -1 || sumInputVal.indexOf(',') !== -1) {
+        if (sumInputVal.indexOf('.') === sumInputVal.length -1 || sumInputVal.indexOf(',') === sumInputVal.length -1) {
+          sumInputData.initAmount = sumInputVal + '00';
+        } else if (sumInputVal.indexOf('.') === sumInputVal.length -2 || sumInputVal.indexOf(',') === sumInputVal.length -2) {
+          sumInputData.initAmount = sumInputVal + '0';
+        } else {
+          sumInputData.initAmount = sumInputVal;
+        }
+      } else if (sumInputVal.length !== 0) {
+        sumInputData.initAmount = sumInputVal + '.00';
+      } else {
+        sumInputData.initAmount = sumInputVal;
+      }
+    }
+    else {
+      sumInputVal = '0,00';
+    }
+
+    sumInputVal = parseFloat(sumInputVal
+      .trim()
+      .replace(/\s/g,'')
+      .replace(/\,/g,'.')
+      .replace(/\,\,/g,'.')
+      .replace(/\.\./g,'.')
+      .replace(/\,./g,'.')
+      .replace(/\.,/g,'.'))
+      .toFixed(2);
+    sumInputData.value = sumInputVal;
+    sumInputVal = sumInputVal.split('').reverse();
+
+    sumInputData.length = sumInputVal.length;
+    let sumArr = [];
+    for (let i = 0, l = sumInputVal.length; i < l; i++) {
+      if (i <= 2) {
+        sumArr.push(sumInputVal[i]);
+      } else {
+        if (!((i - 5) % 3)) {
+            sumArr.push(' ' + sumInputVal[i])
+          } else {
+            sumArr.push(sumInputVal[i]);
+          }
+      }
+    }
+
+    sumInputData.format = sumArr.reverse().join('').replace(/\./g,',');
     return sumInputData;
-  }
+  };
 
   const validateTitle = (errClass, errMsg, titleData) => {
     const title = document.querySelector('#title');
@@ -254,7 +328,7 @@
     titleInputData.format = titleInputVal;
 
     return titleInputData;
-  }
+  };
 
   const onSubmit = () => {
     /*
@@ -294,7 +368,7 @@
   onSubmit();
   customSelect();
   getAccountNumberValue();
+  getSumValue();
   getTitleValue();
-
 
 })();

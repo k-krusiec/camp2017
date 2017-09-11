@@ -132,7 +132,7 @@
               </div>
               <div class="small-9 columns">
                 <div class="search-box">
-                  <input class="recipient-input" type="text" name="search" placeholder="Search for a recipient, contractor or customer">
+                  <input data-validation="required" class="recipient-input" type="text" name="recipient" placeholder="Search for a recipient, contractor or customer">
                   <a href="#"><img src="./images/svg/phone-book-blue.svg" alt="Add"></a>
                 </div>
               </div>
@@ -166,7 +166,7 @@
               </div>
               <div class="small-9 columns">
                 <div>
-                  <input class="acount-number-input" type="text" name="account-number">
+                  <input data-validation="required" class="acount-number-input" type="text" name="account-number">
                 </div>
               </div>
             </div>
@@ -178,7 +178,7 @@
               </div>
               <div class="small-9 columns">
                 <div>
-                  <input class="sum-input" type="text" name="sum" value="0,00">
+                  <input data-validation="required" class="sum-input" type="text" name="sum" value="0,00">
                   <select name="currency">
                     <option value="pln">PLN</option>
                     <option value="eur">EUR</option>
@@ -194,7 +194,7 @@
                 <p class="form-label">When</p>
               </div>
               <div class="small-9 columns">
-                <input type="date" name="date">
+                <input data-validation="required" class="date-input" type="date" name="date">
                 <!-- <input data-toggle="datepicker"> -->
               </div>
             </div>
@@ -206,7 +206,7 @@
               </div>
               <div class="small-9 columns">
                 <div>
-                  <input class="title-input" type="text" name="title">
+                  <input data-validation="required" class="title-input" type="text" name="title">
                 </div>
               </div>
             </div>
@@ -229,7 +229,7 @@
               </div>
             </div>
           </div>
-          <div class="submit">
+          <div class="submit-container">
             <div class="row">
               <div class="small-9 small-offset-3 columns">
                 <input class="submit" type="submit" name="submit" value="Continue">

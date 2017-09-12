@@ -18,42 +18,6 @@
     history: '.history-box'
   };
 
-  // const showMobileMenu = () => {
-  //   const hamburgerMenu = document.querySelector('.menu-title');
-  //   const menu = document.querySelector('.mobile-menu');
-  //
-  //   hamburgerMenu.addEventListener('click', () => {
-  //     menu.classList.toggle('show');
-  //   })
-  // };
-  //
-  // showMobileMenu();
-
-  // const showSearch = () => {
-  //   const searchBtn = document.querySelector('.settings-search');
-  //   const searchPanel = document.querySelector('.search');
-  //   const searchInput = document.querySelector('.search-input');
-  //
-  //   searchBtn.addEventListener('click', () => {
-  //     searchPanel.classList.remove('hidden');
-  //     searchInput.focus();
-  //   })
-  // };
-  //
-  // showSearch();
-  //
-  // const hideSearch = () => {
-  //   const searchPanel = document.querySelector('.search');
-  //   const searchInput = document.querySelector('.search-input');
-  //
-  //   searchPanel.addEventListener('focusout', () => {
-  //     searchPanel.classList.add('hidden');
-  //     searchInput.value = '';
-  //   })
-  // };
-  //
-  // hideSearch();
-
   const switchBtn = () => {
     const customSwitch = document.querySelector('.custom-switch-track');
     const customSwitchKnob = document.querySelector('.custom-switch-knob');

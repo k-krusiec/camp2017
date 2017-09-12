@@ -163,8 +163,58 @@
 
       /*
       - sprawdzam tylko długość i czy są to cyfry lub cyfry i spacje
-      - nie sprawdzam! różnych "sum zbiorczych" i czy numer konta
-        w 100% jest numerem prawidłowym
+      - nie sprawdzam! innych przypadków - czyli:
+          - różnych "sum zbiorczych", "indeksów"
+          - czy numer konta w 100% jest numerem prawdziwym/prawidłowym
+      */
+      if (getData[key].name === name && getData[key].dataType === 'acc-num') {
+        if (value.length !== 0) {
+          if (value.match(accNumRegexp.numSpace) === null) {
+            errorData.msg = errorMsg.accountNumber.badFormat;
+            isError = true;
+            addErrTemplate(errorData);
+          } else if (value.match(accNumRegexp.onlySpace) !== null) {
+            errorData.msg = errorMsg.accountNumber.badFormat;
+            isError = true;
+            addErrTemplate(errorData);
+          } else if (value.length < 26) {
+            errorData.msg = errorMsg.accountNumber.toShort;
+            isError = true;
+            addErrTemplate(errorData);
+          } else if (value.length > 26) {
+            errorData.msg = errorMsg.accountNumber.toLong;
+            isError = true;
+            addErrTemplate(errorData);
+          }
+        }
+      }
+    }
+    return {isError};
+  }
+
+  const validAmountField = (name, dataType, isError) => {
+    let getData = getFormData();
+    let errorData = {
+      target: name,
+      msg: 'error',
+      specClass: 'err-' + name
+    }
+
+    for (var key in getData) {
+      let element = document.querySelector('input[name="'+ getData[key].name +'"]');
+      let value = element.value;
+      const accNumRegexp = {
+        numSpace: /^(\d|\s)+$/,
+        onlySpace: /^(\D\s)+$/
+      }
+
+      value = value.trim().replace(/\s/g,'');
+
+      /*
+      - sprawdzam tylko długość i czy są to cyfry lub cyfry i spacje
+      - nie sprawdzam! innych przypadków - czyli:
+          - różnych "sum zbiorczych", "indeksów"
+          - czy numer konta w 100% jest numerem prawdziwym/prawidłowym
       */
       if (getData[key].name === name && getData[key].dataType === 'acc-num') {
         if (value.length !== 0) {
@@ -214,9 +264,6 @@
     return {isError};
   }
 
-
-
   setEventListener();
-
 
 })();

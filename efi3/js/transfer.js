@@ -161,6 +161,11 @@
 
       value = value.trim().replace(/\s/g,'');
 
+      /*
+      - sprawdzam tylko długość i czy są to cyfry lub cyfry i spacje
+      - nie sprawdzam! różnych "sum zbiorczych" i czy numer konta
+        w 100% jest numerem prawidłowym
+      */
       if (getData[key].name === name && getData[key].dataType === 'acc-num') {
         if (value.length !== 0) {
           if (value.match(accNumRegexp.numSpace) === null) {

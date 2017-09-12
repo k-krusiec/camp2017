@@ -24,9 +24,9 @@
       differentValues: 'Please check again if the amount is correct',
       notEnoughCash: 'You do not have enough funds in your account'
     },
-    title: {
+    text: {
       badFormat: 'Incorrect title format',
-      toLong: 'Title should be no longer than 150 characters',
+      toLong: 'Title should be no longer than 100 characters',
     }
   };
 
@@ -41,7 +41,7 @@
         </div>
       </div>`
     target.insertAdjacentHTML('afterend', errTemplate);
-  };  
+  };
 
   const getFormData = () => {
     let fields = {};
@@ -49,18 +49,23 @@
     for (var i = 0, l = find.length; i < l; i++) {
       let name = find[i].getAttribute('name'),
           classes = find[i].getAttribute('class'),
+          dataValid = find[i].dataset.validation;
+          dataType = find[i].dataset.type;
           value = find[i].value,
-          valLength = find[i].value.length;
+          valLength = find[i].value.length,
 
       fields[name] = {
         name: name,
         classes: classes,
+        dataValid: dataValid,
+        dataType: dataType,
         value: value,
         valLength: valLength,
         error: false
       }
     }
     // console.log(fields);
+
     return fields;
   }
 
@@ -73,10 +78,12 @@
         .addEventListener('blur', e => {
           let name = e.target.getAttribute('name'),
               classes = e.target.getAttribute('class'),
+              dataType = e.target.dataset.type;
               value = e.target.value,
               valLength = e.target.value.length;
 
-          validateField(name, classes, value, valLength);
+          validator(name, classes, dataType, value, valLength);
+
           saveDataInObj(name, classes, value, valLength);
         })
     }
@@ -97,7 +104,7 @@
   }
 
   //przerobić zapisywanie klas w obiekcie!
-  const validateField = (name, classes, value, valLength) => {
+  const validator = (name, classes, dataType, value, valLength) => {
     const errorBox = document.querySelector('.err-' + name);
     let getData = getFormData();
     let isError = false;
@@ -119,16 +126,44 @@
           element.classList.add('error-border');
           errorData.msg = errorMsg.empty;
           isError = true;
+
           addErrTemplate(errorData);
         } else {
           element.classList.remove('error-border');
           isError = false;
         }
-        // console.log(getData[key].classes);
+        let textField = validTextField(name, dataType, isError);
+        // console.log(textField.isError);
+        isError = textField.isError;
         getData[key].error = isError;
       }
     }
-    // console.log(getData);
+    // console.log(errorData);
+    console.log(getData);
+  }
+
+  const validTextField = (name, dataType, isError) => {
+    let getData = getFormData();
+    const errorBox = document.querySelector('.err-' + name);
+    let errorData = {
+      target: name,
+      msg: 'error',
+      specClass: 'err-' + name
+    }
+
+    for (var key in getData) {
+      let element = document.querySelector('input[name="'+ getData[key].name +'"]');
+      let length = element.value.length;
+
+      if (getData[key].name === name) {
+        if (length && length > 100) {
+          errorData.msg = errorMsg.text.toLong;
+          isError = true;
+          addErrTemplate(errorData);
+        }
+      }
+    }
+    return {isError};
   }
 
   setEventListener();

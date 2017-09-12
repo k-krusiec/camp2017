@@ -132,19 +132,62 @@
           element.classList.remove('error-border');
           isError = false;
         }
+        let accNumField = validAccNumField(name, dataType, isError);
         let textField = validTextField(name, dataType, isError);
-        // console.log(textField.isError);
+        isError = accNumField.isError;
         isError = textField.isError;
         getData[key].error = isError;
       }
     }
     // console.log(errorData);
-    console.log(getData);
+    // console.log(getData);
+  }
+
+  const validAccNumField = (name, dataType, isError) => {
+    let getData = getFormData();
+    let errorData = {
+      target: name,
+      msg: 'error',
+      specClass: 'err-' + name
+    }
+
+    for (var key in getData) {
+      let element = document.querySelector('input[name="'+ getData[key].name +'"]');
+      let value = element.value;
+      const accNumRegexp = {
+        numSpace: /^(\d|\s)+$/,
+        onlySpace: /^(\D\s)+$/
+      }
+
+      value = value.trim().replace(/\s/g,'');
+
+      if (getData[key].name === name && getData[key].dataType === 'acc-num') {
+        if (value.length !== 0) {
+          if (value.match(accNumRegexp.numSpace) === null) {
+            errorData.msg = errorMsg.accountNumber.badFormat;
+            isError = true;
+            addErrTemplate(errorData);
+          } else if (value.match(accNumRegexp.onlySpace) !== null) {
+            errorData.msg = errorMsg.accountNumber.badFormat;
+            isError = true;
+            addErrTemplate(errorData);
+          } else if (value.length < 26) {
+            errorData.msg = errorMsg.accountNumber.toShort;
+            isError = true;
+            addErrTemplate(errorData);
+          } else if (value.length > 26) {
+            errorData.msg = errorMsg.accountNumber.toLong;
+            isError = true;
+            addErrTemplate(errorData);
+          }
+        }
+      }
+    }
+    return {isError};
   }
 
   const validTextField = (name, dataType, isError) => {
     let getData = getFormData();
-    const errorBox = document.querySelector('.err-' + name);
     let errorData = {
       target: name,
       msg: 'error',
@@ -155,7 +198,7 @@
       let element = document.querySelector('input[name="'+ getData[key].name +'"]');
       let length = element.value.length;
 
-      if (getData[key].name === name) {
+      if (getData[key].name === name && getData[key].dataType === 'text') {
         if (length && length > 100) {
           errorData.msg = errorMsg.text.toLong;
           isError = true;
@@ -165,6 +208,8 @@
     }
     return {isError};
   }
+
+
 
   setEventListener();
 

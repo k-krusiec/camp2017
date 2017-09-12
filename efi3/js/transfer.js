@@ -4,13 +4,25 @@
     return document.querySelector('form');
   }
 
+  const findFields = () => {
+    return findForm().querySelectorAll('[data-validation]');
+  }
+
   const findSubmitBtn = () => {
     return findForm().querySelector('.submit');
   }
 
-  const findFields = () => {
-    return findForm().querySelectorAll('[data-validation]');
+  const getCustomSelectData = () => {
+    const customSelect = document.querySelector('.custom-account-selector');
+    let activeSelectionData = {
+      accountNumber: customSelect.children[1].children[1].innerText,
+      accountAmount: customSelect.children[2].children[0].innerText,
+      accountCurrency: customSelect.children[2].children[1].innerText
+    }
+    return activeSelectionData;
   }
+
+
 
   const errorMsg = {
     empty: 'This field is required',
@@ -133,8 +145,10 @@
           isError = false;
         }
         let accNumField = validAccNumField(name, dataType, isError);
+        let amountField = validAmountField(name, dataType, value, isError);
         let textField = validTextField(name, dataType, isError);
         isError = accNumField.isError;
+        isError = amountField.isError;
         isError = textField.isError;
         getData[key].error = isError;
       }
@@ -192,7 +206,7 @@
     return {isError};
   }
 
-  const validAmountField = (name, dataType, isError) => {
+  const validAmountField = (name, dataType, value, isError) => {
     let getData = getFormData();
     let errorData = {
       target: name,
@@ -200,38 +214,32 @@
       specClass: 'err-' + name
     }
 
+    let customSelectAmount = getCustomSelectData().accountAmount;
+
     for (var key in getData) {
       let element = document.querySelector('input[name="'+ getData[key].name +'"]');
-      let value = element.value;
-      const accNumRegexp = {
-        numSpace: /^(\d|\s)+$/,
-        onlySpace: /^(\D\s)+$/
-      }
 
-      value = value.trim().replace(/\s/g,'');
+      value = parseFloat(value
+        .trim()
+        .replace(/\s/g,'')
+        .replace(/\,/g,'.')
+        .replace(/\,\,/g,'.')
+        .replace(/\.\./g,'.')
+        .replace(/\,./g,'.')
+        .replace(/\.,/g,'.'))
+        .toFixed(2);
 
-      /*
-      - sprawdzam tylko długość i czy są to cyfry lub cyfry i spacje
-      - nie sprawdzam! innych przypadków - czyli:
-          - różnych "sum zbiorczych", "indeksów"
-          - czy numer konta w 100% jest numerem prawdziwym/prawidłowym
-      */
-      if (getData[key].name === name && getData[key].dataType === 'acc-num') {
+
+        let enoughMoney = parseFloat(customSelectAmount.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2) - value;
+
+      if (getData[key].name === name && getData[key].dataType === 'amount') {
         if (value.length !== 0) {
-          if (value.match(accNumRegexp.numSpace) === null) {
-            errorData.msg = errorMsg.accountNumber.badFormat;
+          if (parseFloat(value).toFixed(2) <= 0 || isNaN(value)) {
+            errorData.msg = errorMsg.sum.badValue;
             isError = true;
             addErrTemplate(errorData);
-          } else if (value.match(accNumRegexp.onlySpace) !== null) {
-            errorData.msg = errorMsg.accountNumber.badFormat;
-            isError = true;
-            addErrTemplate(errorData);
-          } else if (value.length < 26) {
-            errorData.msg = errorMsg.accountNumber.toShort;
-            isError = true;
-            addErrTemplate(errorData);
-          } else if (value.length > 26) {
-            errorData.msg = errorMsg.accountNumber.toLong;
+          } else if (enoughMoney < 0) {
+            errorData.msg = errorMsg.sum.notEnoughCash;
             isError = true;
             addErrTemplate(errorData);
           }

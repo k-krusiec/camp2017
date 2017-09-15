@@ -66,9 +66,6 @@
         border-width: 1px;
         border-style: solid;
         border-color: transparent $silver $silver;
-        // border-bottom: 1px solid $silver;
-        // border-left: 1px solid $silver;
-        // border-right: 1px solid $silver;
         list-style: none;
         transition: 0.2s;
 
@@ -102,6 +99,13 @@
       display: flex;
       flex-flow: row;
       align-items: center;
+      color: inherit;
+      img {
+        margin: 0 5px;
+      }
+      p {
+        margin: 0 5px;
+      }
     }
 
     .type-radio-group {
@@ -194,6 +198,7 @@
 
   .recipient {
     padding: 10px 0;
+    position: relative;
 
     .search-box {
       position: relative;
@@ -203,13 +208,46 @@
         top: 50%;
         right: 5px;
         transform: translateY(-50%);
-        width: 30px;
-        height: 30px;
+        margin: 0 5px;
       }
+
 
       input[type="text"] {
         margin: 0;
         padding: 0 40px 0 10px;
+      }
+    }
+    .recipients-list {
+      position: absolute;
+      z-index: 1;
+      right: 20px;
+      background: $white;
+      a {
+        color: inherit;
+      }
+      li {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        padding: 10px 20px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: transparent $silver $silver;
+        list-style: none;
+        transition: 0.2s;
+        &:first-of-type {
+          border-top: 1px solid $silver;
+        }
+
+        &:not(:last-of-type) {
+          border-bottom: 1px solid lighten($silver, 10%);
+        }
+
+        &:hover {
+          background: $blue-light;
+          color: $white;
+        }
+
       }
     }
   }
@@ -265,9 +303,21 @@
   .type-of-transfer {
     margin-bottom: 30px;
 
-    input[type="radio"] {
+    .radio-container {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .custom-radio-input + .custom-radio-label {
+      width: 150px;
       margin: 0;
     }
+
+    img {
+      padding: 8px 0;
+    }
+
+
   }
 
   .submit-container {

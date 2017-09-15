@@ -53,7 +53,9 @@
     let accountAmount = customSelect.children[2];
 
     for (let i = 0, l = accountListItem.length; i < l; i++) {
+      accountListItem[i].dataset.checked = 'false';
       accountListItem[i].addEventListener('click', function() {
+        this.dataset.checked = 'true';
         accountNumber.innerText = this.children[0].innerText;
         accountAmount.innerHTML = this.children[1].innerHTML;
       })

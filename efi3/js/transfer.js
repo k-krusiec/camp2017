@@ -1,9 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var form = document.querySelector('.form');
-  Module.init({form: form});
-})
-
-var Module = (function() {
+var ValidationModule = (function() {
   var options = {};
   var classError = {};
 
@@ -16,7 +11,8 @@ var Module = (function() {
     accountNumber: {
       badFormat: 'Incorrect account number format',
       toShort: 'Account number is to short',
-      toLong: 'Account number is to long'
+      toLong: 'Account number is to long',
+      equalAccNumbers: 'You can not make a transfer within the same account'
     },
     amount: {
       badValue: 'Incorrect value',
@@ -28,28 +24,43 @@ var Module = (function() {
     }
   };
 
+  var getCustomSelectData = function() {
+    var select = options.form.querySelector('.custom-account-selector');
+    var accNumber = select.children[1].children[1].innerText;
+    var amount = select.children[2].children[0].innerText;
+    var currency = select.children[2].children[1].innerText;
+    var selectData;
+
+    accNumber = accNumber.replace(/\s/g,'');
+    amount = parseFloat(amount.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2);
+
+    selectData = {
+      accNumber: accNumber,
+      amount: amount,
+      currency: currency
+    }
+
+    return selectData;
+  }
+
   var setTodaysDate = function() {
     var d = new Date();
     var month = d.getMonth() + 1;
     var day = d.getDate();
 
-    // return (day < 10 ? '0' : '') + day + '.' + (month < 10 ? '0' : '') + month + '.' + d.getFullYear();
     return d.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
   };
 
-  var showFieldValidation = function(input, isValid, eMsg) {
-    var inputParent = input.parentNode;
+  var showErrorBox = function(input, isValid, eMsg) {
     var fieldMainContainer = options.form.querySelector('#' + input.name);
     var errTemplate =
-      `<div class="error-sausage">
-        <div class="row">
-          <div class="small-9 small-offset-3 columns">
-            <p class="error-msg err-${input.name}">${eMsg}</p>
-          </div>
-        </div>
-      </div>`;
-
-      console.log(options.form.querySelector('.err-' + input.name));
+      '<div class="error-sausage">'
+        + '<div class="row">'
+          + '<div class="small-9 small-offset-3 columns">'
+            + '<p class="error-msg err-' + input.name + '">' + eMsg + '</p>'
+          + '</div>'
+        + '</div>'
+      + '</div>';
 
     if (!isValid) {
       if (!input.className || input.className.indexOf(options.classError) === -1) {
@@ -67,7 +78,6 @@ var Module = (function() {
       if (fieldMainContainer.nextElementSibling.classList.contains('error-sausage')) {
         fieldMainContainer.nextElementSibling.outerHTML  = ''; //wywapa okienko z błędem
       }
-
     }
   };
 
@@ -89,10 +99,10 @@ var Module = (function() {
     }
 
     if (isValid) {
-      showFieldValidation(input, true, eMsg);
+      showErrorBox(input, true, eMsg);
       return true;
     } else {
-      showFieldValidation(input, false, eMsg);
+      showErrorBox(input, false, eMsg);
       return false;
     }
   };
@@ -107,15 +117,18 @@ var Module = (function() {
       isValid = false;
       eMsg = errorMsg.empty;
     } else if ((!pattern.test(inputValue) && isNaN(inputValue)) || (inputValue.length > 0 && inputValue.length !== 26)) {
-        isValid = false;
-        eMsg = errorMsg.accountNumber.badFormat;
-      }
+      isValid = false;
+      eMsg = errorMsg.accountNumber.badFormat;
+    } else if (inputValue === getCustomSelectData().accNumber) {
+      isValid = false;
+      eMsg = errorMsg.accountNumber.equalAccNumbers;
+    }
 
     if (isValid) {
-      showFieldValidation(input, true, eMsg);
+      showErrorBox(input, true, eMsg);
       return true;
     } else {
-      showFieldValidation(input, false, eMsg);
+      showErrorBox(input, false, eMsg);
       return false;
     }
   };
@@ -124,7 +137,11 @@ var Module = (function() {
     var inputValue = input.value;
     var pattern = /^[0-9\s?]{1,}([\s\.|\,]?){1}[0-9]{0,2}$/;
     var isValid = true;
+    var parsedInputValue;
+    var availableFunds = getCustomSelectData().amount;
     var eMsg;
+
+    parsedInputValue = parseFloat(inputValue.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2);
 
     if (!inputValue) {
       isValid = false;
@@ -135,19 +152,21 @@ var Module = (function() {
     } else if (inputValue.charAt(0) === ',' || inputValue.charAt(0) === '.') {
       isValid = false;
       eMsg = errorMsg.amount.badValue;
+    } else if ((availableFunds - parsedInputValue) < 0) {
+      isValid = false;
+      eMsg = errorMsg.amount.notEnoughCash;
     } else if (inputValue.length > 0 || inputValue.indexOf(',') !== -1) {
-        inputValue = parseFloat(inputValue.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2);
-        if (inputValue <= 0) {
+        if (parsedInputValue <= 0) {
           isValid = false;
-          eMsg = errorMsg.amount.badValue
+          eMsg = errorMsg.amount.badValue;
         }
     }
 
     if (isValid) {
-      showFieldValidation(input, true, eMsg);
+      showErrorBox(input, true, eMsg);
       return true;
     } else {
-      showFieldValidation(input, false, eMsg);
+      showErrorBox(input, false, eMsg);
       return false;
     }
   };
@@ -173,30 +192,28 @@ var Module = (function() {
       eMsg = errorMsg.empty;
     } else if (!pattern.test(inputValue)) {
       isValid = false;
-      eMsg = '!pattern.test(inputValue)'//errorMsg.date.badFormat;
+      eMsg = errorMsg.date.badFormat;
     } else if (todaySec > usersDate) {
       isValid = false;
-      eMsg = 'todaySec > usersDate'//errorMsg.date.badValue;
+      eMsg = errorMsg.date.badValue;
     }
 
     if (isValid) {
-      showFieldValidation(input, true, eMsg);
+      showErrorBox(input, true, eMsg);
       return true;
     } else {
-      showFieldValidation(input, false, eMsg);
+      showErrorBox(input, false, eMsg);
       return false;
     }
   };
 
   var prepareElements = function() {
-    //znajdź elementy które mają dataset 'data-validation'
     var elements = options.form.querySelectorAll('input[required], textarea[required], select[required]');
     var dateInput = options.form.querySelector('input[data-type="date"]').value = setTodaysDate();
 
-    //https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
     var forEach = function(array, callback, scope) {
       for (var i = 0; i < array.length; i++) {
-        callback.call(scope, i, array[i]); // passes back stuff we need
+        callback.call(scope, i, array[i]);
       }
     };
 
@@ -212,24 +229,14 @@ var Module = (function() {
           dataType = element.dataset.type.toUpperCase();
         }
 
-        //standars input validations
+        //standard input validation
         if (dataType === 'TEXT') {
           element.addEventListener('keyup', function() {testInputText(element)});
           element.addEventListener('blur', function() {testInputText(element)});
         }
-        // if (dataType === 'NUMBER') {
-        //   element.addEventListener('keyup', function() {console.log(element.value);});
-        //   element.addEventListener('blur', function() {console.log(element.value);});
-        // }
-        // if (dataType == 'CHECKBOX') {
-        //   element.addEventListener('click', function() {console.log(element.value);});
-        // }
-        // if (dataType == 'RADIO') {
-        //   element.addEventListener('click', function() {console.log(element.value);});
-        // }
+        // and other conditions: NUMBER, CHECKBOX, RADIO, TEXTAREA, SELECT
 
-        //custom input validations
-
+        //custom input validation
         if (dataType === 'ACCOUNT-NUMBER') {
           element.addEventListener('keyup', function() {testAccNumber(element)});
           element.addEventListener('blur', function() {testAccNumber(element)});
@@ -243,13 +250,6 @@ var Module = (function() {
           element.addEventListener('blur', function() {testDateValue(element)});
         }
       }
-      // if ( element.nodeName.toUpperCase() === 'TEXTAREA' ) {
-      //   element.addEventListener('keyup', function() {console.log(element.value);});
-      //   element.addEventListener('blur', function() {console.log(element.value);});
-      // }
-      // if ( element.nodeName.toUpperCase() === 'SELECT' ) {
-      //   element.addEventListener( 'change', function () { console.log( element.value ); } );
-      // }
     });
   };
 
@@ -261,7 +261,7 @@ var Module = (function() {
       var elements = options.form.querySelectorAll('.required');
       var forEach = function(array, callback, scope) {
         for (var i = 0; i < array.length; i++) {
-          callback.call(scope, i, array[i]); // passes back stuff we need
+          callback.call(scope, i, array[i]);
         }
       };
 
@@ -275,9 +275,13 @@ var Module = (function() {
             dataType = element.dataset.type.toUpperCase();
           }
 
+          //standard input validation
           if (dataType == 'TEXT') {
             if (!testInputText(element)) validated = false;
           }
+          // and other conditions: NUMBER, CHECKBOX, RADIO, TEXTAREA, SELECT
+
+          //custom input validation
           if (dataType == 'ACCOUNT-NUMBER') {
             if (!testAccNumber(element)) validated = false;
           }
@@ -288,12 +292,6 @@ var Module = (function() {
             if (!testDateValue(element)) validated = false;
           }
         }
-        // if (element.nodeName.toUpperCase() == 'TEXTAREA') {
-        //   if (!testInputText(element)) validated = false;
-        // }
-        // if (element.nodeName.toUpperCase() == 'SELECT') {
-        //   if (!testInputSelect(element)) validated = false;
-        // }
       });
 
       if (validated) {
@@ -308,14 +306,15 @@ var Module = (function() {
   var init = function(_options) { // to jest parametr z Module.init({form : form});
     options = {
       form: _options.form || null, //przekazany parametr - form znaleziony w DOMie, lub null jeżeli nieznaleziony
-      classError: _options.classError || 'error'
+      classError: _options.classError || 'error-border'
     }
     //jeżeli nie ma forma to daj warn w konsoli
     //sprawdza w funkcji init -> options -> form
     if ( options.form === null || options.form === undefined || options.form.length === 0 ) {
-      console.warn('Module: Źle przekazany formularz');
+      console.warn('ValidationModule: Źle przekazany formularz');
       return false;
     }
+
 
     prepareElements();
     formSubmit();
@@ -326,3 +325,8 @@ var Module = (function() {
   };
 
 })();
+
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.querySelector('.form');
+  ValidationModule.init({form: form});
+})

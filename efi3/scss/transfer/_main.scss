@@ -285,34 +285,15 @@
   .error-border {
     border: 1px solid red;
     transition: 0.4s;
-
-    &:focus {
-      border: 1px solid red;
-    }
-  }
-
-  #recipient {
-    position: relative;
   }
 
   .error-msg {
-    /***** in new row sausage *****/
     position: relative;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 5px;
     background: red;
-    font-style: italic;
     color: $white;
-    /***** floating sausage *****/
-    // position: absolute;
-    // max-width: 517px;
-    // margin-right: 15px;
-    // padding: 10px 20px;
-    // border-radius: 5px;
-    // background: red;
-    // color: $white;
-    // z-index: 2;
     &:before {
       content: ' ';
       position: absolute;

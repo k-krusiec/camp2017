@@ -1,277 +1,328 @@
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.querySelector('.form');
+  Module.init({form: form});
+})
 
-  const findForm = () => {
-    return document.querySelector('form');
-  }
+var Module = (function() {
+  var options = {};
+  var classError = {};
 
-  const findFields = () => {
-    return findForm().querySelectorAll('[data-validation]');
-  }
-
-  const findSubmitBtn = () => {
-    return findForm().querySelector('.submit');
-  }
-
-  const getCustomSelectData = () => {
-    const customSelect = document.querySelector('.custom-account-selector');
-    let activeSelectionData = {
-      accountNumber: customSelect.children[1].children[1].innerText,
-      accountAmount: customSelect.children[2].children[0].innerText,
-      accountCurrency: customSelect.children[2].children[1].innerText
-    }
-    return activeSelectionData;
-  }
-
-
-
-  const errorMsg = {
+  var errorMsg = {
     empty: 'This field is required',
+    text: {
+      badFormat: 'Incorrect text format',
+      toLong: 'Text should be no longer than 100 characters'
+    },
     accountNumber: {
       badFormat: 'Incorrect account number format',
       toShort: 'Account number is to short',
-      toLong: 'Account number is to long',
+      toLong: 'Account number is to long'
     },
-    sum: {
+    amount: {
       badValue: 'Incorrect value',
-      differentValues: 'Please check again if the amount is correct',
       notEnoughCash: 'You do not have enough funds in your account'
     },
-    text: {
-      badFormat: 'Incorrect title format',
-      toLong: 'Title should be no longer than 100 characters',
+    date: {
+      badFormat: 'Incorrect date format',
+      badValue: 'Incorrect date'
     }
   };
 
-  const addErrTemplate = (errorData) => {
-    let target = document.querySelector('#' + errorData.target);
-    let errTemplate = `
-      <div class="${errorData.specClass}">
+  var setTodaysDate = function() {
+    var d = new Date();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+
+    // return (day < 10 ? '0' : '') + day + '.' + (month < 10 ? '0' : '') + month + '.' + d.getFullYear();
+    return d.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+  };
+
+  var showFieldValidation = function(input, isValid, eMsg) {
+    var inputParent = input.parentNode;
+    var fieldMainContainer = options.form.querySelector('#' + input.name);
+    var errTemplate =
+      `<div class="error-sausage">
         <div class="row">
           <div class="small-9 small-offset-3 columns">
-            <p class="error-sausage">${errorData.msg}</p>
+            <p class="error-msg err-${input.name}">${eMsg}</p>
           </div>
         </div>
-      </div>`
-    target.insertAdjacentHTML('afterend', errTemplate);
+      </div>`;
+
+      console.log(options.form.querySelector('.err-' + input.name));
+
+    if (!isValid) {
+      if (!input.className || input.className.indexOf(options.classError) === -1) {
+        input.className += ' ' + options.classError;
+      }
+      if (!fieldMainContainer.nextElementSibling.classList.contains('error-sausage')) {
+        fieldMainContainer.insertAdjacentHTML('afterend', errTemplate);
+      } else {
+        options.form.querySelector('.err-' + input.name).innerText = eMsg;
+      }
+
+    } else {
+      var regError = new RegExp('(\\s|^)' + options.classError + '(\\s|$)');
+      input.className = input.className.replace(regError, '');
+      if (fieldMainContainer.nextElementSibling.classList.contains('error-sausage')) {
+        fieldMainContainer.nextElementSibling.outerHTML  = ''; //wywapa okienko z błędem
+      }
+
+    }
   };
 
-  const getFormData = () => {
-    let fields = {};
-    let find = findFields();
-    for (var i = 0, l = find.length; i < l; i++) {
-      let name = find[i].getAttribute('name'),
-          classes = find[i].getAttribute('class'),
-          dataValid = find[i].dataset.validation;
-          dataType = find[i].dataset.type;
-          value = find[i].value,
-          valLength = find[i].value.length,
+  var testInputText = function(input) {
+    var inputValue = input.value;
+    var pattern = /^([0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\.\-\"\(\)\s])+$/;
+    var isValid = true;
+    var eMsg;
 
-      fields[name] = {
-        name: name,
-        classes: classes,
-        dataValid: dataValid,
-        dataType: dataType,
-        value: value,
-        valLength: valLength,
-        error: false
+    if (!inputValue) {
+      isValid = false;
+      eMsg = errorMsg.empty;
+    } else if (inputValue.length > 100) {
+      isValid = false;
+      eMsg = errorMsg.text.toLong;
+    } else if (!pattern.test(inputValue)) {
+      isValid = false;
+      eMsg = errorMsg.text.badFormat;
+    }
+
+    if (isValid) {
+      showFieldValidation(input, true, eMsg);
+      return true;
+    } else {
+      showFieldValidation(input, false, eMsg);
+      return false;
+    }
+  };
+
+  var testAccNumber = function(input) {
+    var inputValue = input.value.replace(/\s/g,'');
+    var pattern = /^[0-9]{2}\s?([0-9]{4}\s?){5}([0-9]{4})$/;
+    var isValid = true;
+    var eMsg;
+
+    if (!inputValue) {
+      isValid = false;
+      eMsg = errorMsg.empty;
+    } else if ((!pattern.test(inputValue) && isNaN(inputValue)) || (inputValue.length > 0 && inputValue.length !== 26)) {
+        isValid = false;
+        eMsg = errorMsg.accountNumber.badFormat;
       }
+
+    if (isValid) {
+      showFieldValidation(input, true, eMsg);
+      return true;
+    } else {
+      showFieldValidation(input, false, eMsg);
+      return false;
     }
-    // console.log(fields);
+  };
 
-    return fields;
-  }
+  var testAmountValue = function(input) {
+    var inputValue = input.value;
+    var pattern = /^[0-9\s?]{1,}([\s\.|\,]?){1}[0-9]{0,2}$/;
+    var isValid = true;
+    var eMsg;
 
-  //dodaj event do każdego sprawdzanego pola
-  const setEventListener = () => {
-    let getData = getFormData();
-
-    for (var prop in getData) {
-      document.querySelector('.' + getData[prop].classes)
-        .addEventListener('blur', e => {
-          let name = e.target.getAttribute('name'),
-              classes = e.target.getAttribute('class'),
-              dataType = e.target.dataset.type;
-              value = e.target.value,
-              valLength = e.target.value.length;
-
-          validator(name, classes, dataType, value, valLength);
-
-          saveDataInObj(name, classes, value, valLength);
-        })
+    if (!inputValue) {
+      isValid = false;
+      eMsg = errorMsg.empty;
+    } else if (!pattern.test(inputValue)) {
+      isValid = false;
+      eMsg = errorMsg.amount.badValue;
+    } else if (inputValue.charAt(0) === ',' || inputValue.charAt(0) === '.') {
+      isValid = false;
+      eMsg = errorMsg.amount.badValue;
+    } else if (inputValue.length > 0 || inputValue.indexOf(',') !== -1) {
+        inputValue = parseFloat(inputValue.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2);
+        if (inputValue <= 0) {
+          isValid = false;
+          eMsg = errorMsg.amount.badValue
+        }
     }
-  }
 
-  //zapisz w obiekcie nowe wartości zaciągnięte z pól (po zmianach/blurze)
-  const saveDataInObj = (name, classes, value, valLength) => {
-    let getData = getFormData();
+    if (isValid) {
+      showFieldValidation(input, true, eMsg);
+      return true;
+    } else {
+      showFieldValidation(input, false, eMsg);
+      return false;
+    }
+  };
 
-    for (var key in getData) {
-      if (getData[key].name === name){
-        getData[key].classes = classes;
-        getData[key].value = value;
-        getData[key].valLength = valLength;
+  var testDateValue = function(input) {
+    var inputValue = input.value;
+    var pattern = /^(19|20\d\d)[-/.](0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])$/;
+    var isValid = true;
+    var usersDate;
+    var today = setTodaysDate();
+    var eMsg;
+
+    usersDate = inputValue.split('-');
+    usersDate = new Date(usersDate[0],usersDate[1]-1,usersDate[2]);
+    usersDate = usersDate.getTime() / 1000;
+
+    today = today.split('-');
+    todaySec = new Date(today[0],today[1]-1,today[2]);
+    todaySec = todaySec.getTime() / 1000;
+
+    if (!inputValue) {
+      isValid = false;
+      eMsg = errorMsg.empty;
+    } else if (!pattern.test(inputValue)) {
+      isValid = false;
+      eMsg = '!pattern.test(inputValue)'//errorMsg.date.badFormat;
+    } else if (todaySec > usersDate) {
+      isValid = false;
+      eMsg = 'todaySec > usersDate'//errorMsg.date.badValue;
+    }
+
+    if (isValid) {
+      showFieldValidation(input, true, eMsg);
+      return true;
+    } else {
+      showFieldValidation(input, false, eMsg);
+      return false;
+    }
+  };
+
+  var prepareElements = function() {
+    //znajdź elementy które mają dataset 'data-validation'
+    var elements = options.form.querySelectorAll('input[required], textarea[required], select[required]');
+    var dateInput = options.form.querySelector('input[data-type="date"]').value = setTodaysDate();
+
+    //https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
+    var forEach = function(array, callback, scope) {
+      for (var i = 0; i < array.length; i++) {
+        callback.call(scope, i, array[i]); // passes back stuff we need
       }
-    }
-    // console.log(getData);
-  }
+    };
 
-  //przerobić zapisywanie klas w obiekcie!
-  const validator = (name, classes, dataType, value, valLength) => {
-    const errorBox = document.querySelector('.err-' + name);
-    let getData = getFormData();
-    let isError = false;
-    let errorData = {
-      target: name,
-      msg: 'error',
-      specClass: 'err-' + name
-    }
+    forEach(elements, function(index, element) {
+      element.removeAttribute('required');
+      element.className += ' required';
+      if (element.nodeName.toUpperCase() === 'INPUT') {
+        var dataType = element.dataset.type;
 
-    if (errorBox) {
-      errorBox.parentNode.removeChild(errorBox);
-    }
-
-    for (var key in getData) {
-      let element = document.querySelector('input[name="'+ getData[key].name +'"]');
-
-      if (getData[key].name === name) {
-        if (!valLength) {
-          element.classList.add('error-border');
-          errorData.msg = errorMsg.empty;
-          isError = true;
-
-          addErrTemplate(errorData);
+        if (!dataType) {
+          dataType = element.type.toUpperCase();
         } else {
-          element.classList.remove('error-border');
-          isError = false;
+          dataType = element.dataset.type.toUpperCase();
         }
-        let accNumField = validAccNumField(name, dataType, isError);
-        let amountField = validAmountField(name, dataType, value, isError);
-        let textField = validTextField(name, dataType, isError);
-        isError = accNumField.isError;
-        isError = amountField.isError;
-        isError = textField.isError;
-        getData[key].error = isError;
+
+        //standars input validations
+        if (dataType === 'TEXT') {
+          element.addEventListener('keyup', function() {testInputText(element)});
+          element.addEventListener('blur', function() {testInputText(element)});
+        }
+        // if (dataType === 'NUMBER') {
+        //   element.addEventListener('keyup', function() {console.log(element.value);});
+        //   element.addEventListener('blur', function() {console.log(element.value);});
+        // }
+        // if (dataType == 'CHECKBOX') {
+        //   element.addEventListener('click', function() {console.log(element.value);});
+        // }
+        // if (dataType == 'RADIO') {
+        //   element.addEventListener('click', function() {console.log(element.value);});
+        // }
+
+        //custom input validations
+
+        if (dataType === 'ACCOUNT-NUMBER') {
+          element.addEventListener('keyup', function() {testAccNumber(element)});
+          element.addEventListener('blur', function() {testAccNumber(element)});
+        }
+        if (dataType === 'AMOUNT') {
+          element.addEventListener('keyup', function() {testAmountValue(element)});
+          element.addEventListener('blur', function() {testAmountValue(element)});
+        }
+        if (dataType === 'DATE') {
+          element.addEventListener('keyup', function() {testDateValue(element)});
+          element.addEventListener('blur', function() {testDateValue(element)});
+        }
       }
-    }
-    // console.log(errorData);
-    // console.log(getData);
-  }
+      // if ( element.nodeName.toUpperCase() === 'TEXTAREA' ) {
+      //   element.addEventListener('keyup', function() {console.log(element.value);});
+      //   element.addEventListener('blur', function() {console.log(element.value);});
+      // }
+      // if ( element.nodeName.toUpperCase() === 'SELECT' ) {
+      //   element.addEventListener( 'change', function () { console.log( element.value ); } );
+      // }
+    });
+  };
 
-  const validAccNumField = (name, dataType, isError) => {
-    let getData = getFormData();
-    let errorData = {
-      target: name,
-      msg: 'error',
-      specClass: 'err-' + name
-    }
+  var formSubmit = function() {
+    options.form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-    for (var key in getData) {
-      let element = document.querySelector('input[name="'+ getData[key].name +'"]');
-      let value = element.value;
-      const accNumRegexp = {
-        numSpace: /^(\d|\s)+$/,
-        onlySpace: /^(\D\s)+$/
-      }
+      var validated = true;
+      var elements = options.form.querySelectorAll('.required');
+      var forEach = function(array, callback, scope) {
+        for (var i = 0; i < array.length; i++) {
+          callback.call(scope, i, array[i]); // passes back stuff we need
+        }
+      };
 
-      value = value.trim().replace(/\s/g,'');
+      forEach(elements, function(index, element) {
+        if (element.nodeName.toUpperCase() == 'INPUT') {
+          var dataType = element.dataset.type;
 
-      /*
-      - sprawdzam tylko długość i czy są to cyfry lub cyfry i spacje
-      - nie sprawdzam! innych przypadków - czyli:
-          - różnych "sum zbiorczych", "indeksów"
-          - czy numer konta w 100% jest numerem prawdziwym/prawidłowym
-      */
-      if (getData[key].name === name && getData[key].dataType === 'acc-num') {
-        if (value.length !== 0) {
-          if (value.match(accNumRegexp.numSpace) === null) {
-            errorData.msg = errorMsg.accountNumber.badFormat;
-            isError = true;
-            addErrTemplate(errorData);
-          } else if (value.match(accNumRegexp.onlySpace) !== null) {
-            errorData.msg = errorMsg.accountNumber.badFormat;
-            isError = true;
-            addErrTemplate(errorData);
-          } else if (value.length < 26) {
-            errorData.msg = errorMsg.accountNumber.toShort;
-            isError = true;
-            addErrTemplate(errorData);
-          } else if (value.length > 26) {
-            errorData.msg = errorMsg.accountNumber.toLong;
-            isError = true;
-            addErrTemplate(errorData);
+          if (!dataType) {
+            dataType = element.type.toUpperCase();
+          } else {
+            dataType = element.dataset.type.toUpperCase();
+          }
+
+          if (dataType == 'TEXT') {
+            if (!testInputText(element)) validated = false;
+          }
+          if (dataType == 'ACCOUNT-NUMBER') {
+            if (!testAccNumber(element)) validated = false;
+          }
+          if (dataType == 'AMOUNT') {
+            if (!testAmountValue(element)) validated = false;
+          }
+          if (dataType == 'DATE') {
+            if (!testDateValue(element)) validated = false;
           }
         }
+        // if (element.nodeName.toUpperCase() == 'TEXTAREA') {
+        //   if (!testInputText(element)) validated = false;
+        // }
+        // if (element.nodeName.toUpperCase() == 'SELECT') {
+        //   if (!testInputSelect(element)) validated = false;
+        // }
+      });
+
+      if (validated) {
+        this.submit();
+      } else {
+        return false;
       }
+
+    });
+  };
+
+  var init = function(_options) { // to jest parametr z Module.init({form : form});
+    options = {
+      form: _options.form || null, //przekazany parametr - form znaleziony w DOMie, lub null jeżeli nieznaleziony
+      classError: _options.classError || 'error'
     }
-    return {isError};
-  }
-
-  const validAmountField = (name, dataType, value, isError) => {
-    let getData = getFormData();
-    let errorData = {
-      target: name,
-      msg: 'error',
-      specClass: 'err-' + name
-    }
-
-    let customSelectAmount = getCustomSelectData().accountAmount;
-
-    for (var key in getData) {
-      let element = document.querySelector('input[name="'+ getData[key].name +'"]');
-
-      value = parseFloat(value
-        .trim()
-        .replace(/\s/g,'')
-        .replace(/\,/g,'.')
-        .replace(/\,\,/g,'.')
-        .replace(/\.\./g,'.')
-        .replace(/\,./g,'.')
-        .replace(/\.,/g,'.'))
-        .toFixed(2);
-
-
-        let enoughMoney = parseFloat(customSelectAmount.replace(/\s/g,'').replace(/\,/g,'.')).toFixed(2) - value;
-
-      if (getData[key].name === name && getData[key].dataType === 'amount') {
-        if (value.length !== 0) {
-          if (parseFloat(value).toFixed(2) <= 0 || isNaN(value)) {
-            errorData.msg = errorMsg.sum.badValue;
-            isError = true;
-            addErrTemplate(errorData);
-          } else if (enoughMoney < 0) {
-            errorData.msg = errorMsg.sum.notEnoughCash;
-            isError = true;
-            addErrTemplate(errorData);
-          }
-        }
-      }
-    }
-    return {isError};
-  }
-
-  const validTextField = (name, dataType, isError) => {
-    let getData = getFormData();
-    let errorData = {
-      target: name,
-      msg: 'error',
-      specClass: 'err-' + name
+    //jeżeli nie ma forma to daj warn w konsoli
+    //sprawdza w funkcji init -> options -> form
+    if ( options.form === null || options.form === undefined || options.form.length === 0 ) {
+      console.warn('Module: Źle przekazany formularz');
+      return false;
     }
 
-    for (var key in getData) {
-      let element = document.querySelector('input[name="'+ getData[key].name +'"]');
-      let length = element.value.length;
+    prepareElements();
+    formSubmit();
+  };
 
-      if (getData[key].name === name && getData[key].dataType === 'text') {
-        if (length && length > 100) {
-          errorData.msg = errorMsg.text.toLong;
-          isError = true;
-          addErrTemplate(errorData);
-        }
-      }
-    }
-    return {isError};
-  }
-
-  setEventListener();
+  return {
+    init: init
+  };
 
 })();

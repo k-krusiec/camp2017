@@ -1,0 +1,53 @@
+.calendar-main {
+  .range {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 150px;
+
+  }
+  .set-range {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 150px;
+  }
+
+  .calendar-box {
+    .cal-day-names {
+      display: flex;
+      flex-flow: row nowrap;
+    }
+    .day-name {
+      width: calc(100%/7);
+    }
+    .cal-week {
+      display: flex;
+      flex-flow: row nowrap;
+      &:not(:last-child) {
+        border-bottom: 1px solid $silver;
+      }
+    }
+    .cal-day {
+      width: calc(100%/7);
+      height: 150px;
+      padding: 10px;
+      background: $white;
+      color: $black;
+      &:not(:last-child) {
+        border-right: 1px solid $silver;
+      }
+      &:nth-last-child(2),
+      &:last-child {
+        background: lighten($silver, 10%);
+      }
+    }
+    .sunday {
+      color: $lipstick;
+    }
+    .last-next-month {
+      background: lighten($silver, 10%);
+      color: lighten($black, 60%);
+    }
+  }
+}

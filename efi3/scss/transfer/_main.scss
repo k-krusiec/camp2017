@@ -197,7 +197,7 @@
   }
 
   .recipient {
-    padding: 10px 0;
+    padding: 10px 0 5px;
     position: relative;
 
     .search-box {
@@ -340,6 +340,7 @@
   .error-msg {
     position: relative;
     display: inline-block;
+    margin-bottom: 5px;
     padding: 10px 15px;
     border-radius: 5px;
     background: red;

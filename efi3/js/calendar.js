@@ -6,88 +6,178 @@ document.addEventListener('DOMContentLoaded', function() {
 var CalendarModule = (function () {
   var options = {};
 
-  var generateCalendar = function (cal, firstDay, numOfDays) {
-    var firstDay = firstDay - 1; // poniedziałek pierwszym dniem tygodnia
-    var numOfWeeks;
-    var remainingDays = numOfDays;
+  //Bez jaj! Kolorowanie logów :)
+  //https://medium.freecodecamp.org/how-to-get-the-most-out-of-the-javascript-console-b57ca9db3e6d
+  const success = [
+    'display: block',
+    'padding: 2px 10px',
+    'border-radius: 5px',
+    'background: #dcedc8',
+    'color: black'
+  ].join(';');
 
-    //jeżeli firstDay to niedziela to 7
-    if (firstDay < 0) {
-      firstDay = 6;
+  var prepareCalGrid = function (cal, firstDay, numOfDays, wasChange) {
+    var container = cal.children[1];
+    var gridBox = document.createElement('div');
+    gridBox.className = 'calendar-grid';
+
+    //jeżeli ma być kalendarz to wywal domyślny tekst
+    if (firstDay >= 0 && firstDay <= 6 && numOfDays !== 0) {
+      if (container.className === 'cal-not-availible') {
+        cal.removeChild(container);
+        cal.insertAdjacentElement('beforeend', gridBox);
+        container = cal.children[1];
+      }
     }
+
+    if (wasChange) {
+      cal.removeChild(container);
+      cal.insertAdjacentElement('beforeend', gridBox);
+      container = cal.children[1];
+    }
+
+    return {container : container};
+  }
+
+  var prepareCalData = function (firstDay, numOfDays) {
+    var numOfWeeks = 0;
+
+    if (firstDay < 0) {firstDay = 6;} //jeżeli firstDay to niedziela to 6
 
     //ile tygodni?
-    if (firstDay === 6) { //jeżeli niedziela
-      if (numOfDays === 30 || numOfDays === 31) {
-        numOfWeeks = 6;
-      }
-    } else if (firstDay === 5) { //jeżeli sobota
-      if (numOfDays === 31) {
-        numOfWeeks = 6;
-      }
-    } else if (firstDay === 0) { //jeżeli poniedziałek
-      if (numOfDays === 28) {
-        numOfWeeks = 4;
-      }
-    } else {
-      numOfWeeks = 5;
-    }
+    if (firstDay === 6 && (numOfDays === 30 || numOfDays === 31)) {numOfWeeks = 6;} //jeżeli niedziela
+    else if (firstDay === 5 && numOfDays === 31) {numOfWeeks = 6;} //jeżeli sobota
+    else if (firstDay === 0 && numOfDays === 28) {numOfWeeks = 4;} //jeżeli poniedziałek
+    else {numOfWeeks = 5;}
 
-    console.log(cal.lastElementChild);
-    // console.log(firstDay);
-    console.log('numOfDays: ', numOfDays);
+    return {firstDay, numOfWeeks};
+  }
 
+  var addWeeks = function (numOfWeeks, newContainer) {
+    //dodaj tygodnie
     for (var i = 0; i < numOfWeeks; i++) {
       var week = document.createElement('div');
       week.className = 'cal-week';
       week.dataset.index = i;
-      cal.lastElementChild.insertAdjacentElement('afterend',week);
+      newContainer.insertAdjacentElement('beforeend',week);
     }
+  }
 
+  var fillFirstWeek = function (newFirstDay, newContainer, numOfDays, remainingDays) {
     for (var i = 0; i < 7; i++) { //pierwszy tydzień
+      var day = numOfDays - remainingDays + 1;
       var otherMonth = document.createElement('div');
       var normalDay = document.createElement('div');
-      normalDay.innerText = 'normalDay ' + (i+1);
-      normalDay.className = 'cal-day';
+
+      normalDay.innerText = day;
+      normalDay.classList.add('cal-day');
       otherMonth.innerText = 'otherMonth ' + (i+1);
       otherMonth.classList.add('cal-day');
       otherMonth.classList.add('last-next-month');
-      if (i < firstDay) {
-        cal.children[1].insertAdjacentElement('beforeend',otherMonth);
+
+      if (newFirstDay !== 0) {
+        if (i < newFirstDay) {
+          newContainer.children[0].insertAdjacentElement('beforeend',otherMonth);
+        } else {
+          newContainer.children[0].insertAdjacentElement('beforeend',normalDay);
+          remainingDays--;
+        }
       } else {
-        cal.children[1].insertAdjacentElement('beforeend',normalDay);
+        newContainer.children[0].insertAdjacentElement('beforeend',normalDay);
         remainingDays--;
       }
+
+      if (i === 6) {normalDay.classList.add('sunday');} //dodaj klasę sunday do niedzieli
     }
 
+    return {remainingDays};
+  }
+
+  var fillMiddleWeeks = function (numOfWeeks, newContainer, numOfDays, remainingDays) {
     for (var i = 1; i < numOfWeeks - 1; i++) {
       for (var j = 0; j < 7; j++) { //od drugiego tygodnia to przedostatniego
+        var day = numOfDays - remainingDays + 1;
         var otherMonth = document.createElement('div');
         var normalDay = document.createElement('div');
-        normalDay.innerText = 'normalDay ' + (j+1);
+
+        normalDay.innerText = day;
         normalDay.className = 'cal-day';
         otherMonth.innerText = 'otherMonth ' + (j+1);
         otherMonth.classList.add('cal-day');
         otherMonth.classList.add('last-next-month');
-        cal.children[i+1].insertAdjacentElement('beforeend',normalDay);
+        newContainer.children[i].insertAdjacentElement('beforeend',normalDay);
+
+        if (j === 6) {normalDay.classList.add('sunday');} //dodaj klasę sunday do niedzieli
+
         remainingDays--;
       }
     }
 
+    return {remainingDays};
+  }
+
+  var fillLastWeek = function (numOfWeeks, newContainer, numOfDays, remainingDays) {
     for (var i = 0; i < 7; i++) { //ostatni tydzień
+      var day = numOfDays - remainingDays + 1;
       var otherMonth = document.createElement('div');
       var normalDay = document.createElement('div');
-      normalDay.innerText = 'normalDay ' + (i+1);
+
+      normalDay.innerText = day;
       normalDay.className = 'cal-day';
       otherMonth.innerText = 'otherMonth ' + (i+1);
       otherMonth.classList.add('cal-day');
       otherMonth.classList.add('last-next-month');
-      if (i < remainingDays) {
-        cal.children[numOfWeeks].insertAdjacentElement('beforeend',normalDay);
+
+      if (i < day && day !== numOfDays + 1) {
+        newContainer.children[numOfWeeks-1].insertAdjacentElement('beforeend',normalDay);
+        remainingDays--;
       } else {
-        cal.children[numOfWeeks].insertAdjacentElement('beforeend',otherMonth);
+        newContainer.children[numOfWeeks-1].insertAdjacentElement('beforeend',otherMonth);
       }
+
+      if (i === 6) {normalDay.classList.add('sunday');} //dodaj klasę sunday do niedzieli
     }
+
+    return {remainingDays};
+  }
+
+  var generateCalendar = function (cal, firstDay, numOfDays, wasChange) {
+    var remainingDays = numOfDays;
+    var newContainer;
+    var newFirstDay;
+    var numOfWeeks;
+
+    // przesuwam początek tygodnia z niedzieli na poniedziałek
+    firstDay = (firstDay - 1);
+
+    //wywalam default i stary kontener, dodaję nowy kontener
+    newContainer = prepareCalGrid(cal, firstDay, numOfDays, wasChange).container;
+
+    //ustalam nowy pierwszy dzień (poniedziałek) i liczbę tygodni
+    newFirstDay = prepareCalData(firstDay, numOfDays).firstDay;
+    numOfWeeks = prepareCalData(firstDay, numOfDays).numOfWeeks;
+
+    //dodaję tygodnie do kontenera
+    addWeeks(numOfWeeks, newContainer);
+
+    //dodaj dni do pierwszego tygodnia
+    remainingDays = fillFirstWeek(newFirstDay, newContainer, numOfDays, remainingDays).remainingDays;
+
+    //dodaj dni do środkowych tygodni
+    remainingDays = fillMiddleWeeks(numOfWeeks, newContainer, numOfDays, remainingDays).remainingDays;
+
+    remainingDays = fillLastWeek(numOfWeeks, newContainer, numOfDays, remainingDays).remainingDays;
+
+    // remainingDays++
+    if (remainingDays !== 0) {
+      console.warn('Wystąpił błąd przy generowaniu kalendarza!');
+      return false;
+    } else {
+      console.info('%c Kalendarz został wygenerowany poprawnie.', success);
+      return true;
+    }
+
+
   }
 
   var firstDayInMonth = function (month, year) {
@@ -162,21 +252,23 @@ var CalendarModule = (function () {
           changeDate(index, inputs, date);
           firstDay = firstDayInMonth(date.month, date.year);
           numOfDays = daysInMonth(date.month, date.year);
-          // generateCalendar(cal, firstDay, numOfDays);
+          //true - bo była zmiana miesiąca
+          generateCalendar(cal, firstDay, numOfDays, true);
         });
       } else {
         controller.addEventListener('click', function () {
           changeDate(index, inputs, date);
           firstDay = firstDayInMonth(date.month, date.year);
           numOfDays = daysInMonth(date.month, date.year);
-          // generateCalendar(cal, firstDay, numOfDays);
+          //true - bo była zmiana miesiąca
+          generateCalendar(cal, firstDay, numOfDays, true);
         });
       }
     });
 
     //ustaw dzisiejszą datę na wjazd
     setDate(inputs, date);
-    generateCalendar(cal, firstDay, numOfDays);
+    generateCalendar(cal, firstDay, numOfDays, false); // false na wjazd (nie było zmiany miesiąca)
   };
 
   var init = function (_options) {

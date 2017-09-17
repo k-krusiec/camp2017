@@ -47,6 +47,10 @@
         background: lighten($silver, 10%);
       }
     }
+    .day-number {
+      font-weight: 300;
+      font-size: 1.5em;
+    }
     .active {
       position: relative;
       &:after {
@@ -63,7 +67,7 @@
     .sunday {
       color: $lipstick;
     }
-    .last-next-month {
+    .different-month {
       background: lighten($silver, 10%);
       color: lighten($black, 60%);
     }

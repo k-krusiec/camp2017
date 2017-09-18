@@ -49,7 +49,7 @@ var CalendarModule = (function () {
     },
     item6: {
       tag: 'green',
-      text: 'Invoice'
+      text: 'Invoice 123/2017'
     }
   }
 
@@ -243,23 +243,24 @@ var CalendarModule = (function () {
     }
   }
 
-  var insertTask = function (item, target, additionalText) {
+  var insertTask = function (item, target) {
     var tag = fakeTasks[item].tag
     var text = fakeTasks[item].text
-    target.insertAdjacentElement('beforeend', taskPattern(tag, text + additionalText).task)
+    target.insertAdjacentElement('beforeend', taskPattern(tag, text).task)
   }
 
   var setDayTasks = function (date) {
     var days = options.calendar.querySelectorAll('.regular');
-    //jakiś dodatkowy tekst
-    var item6AddText = '123/' + date.year;
 
-    insertTask('item1', days[0], '');
-    insertTask('item5', days[0], '');
-    insertTask('item6', days[0], item6AddText);
-    insertTask('item2', days[10], '');
-    insertTask('item3', days[16], '');
-    insertTask('item4', days[20], '');
+    //małe urozmaicenie - dla każdego miesiąca losowany jest dzień i task który się w nim znajdzie
+    function getRandom(num) {
+      return Math.floor(Math.random() * num) + 1;
+    }
+
+    //ile tasków wstawić? tyle co numer miesiąca
+    for (var i = 0; i <= 10; i++) {
+      insertTask('item' + getRandom(6), days[getRandom(date.numOfDays - 1)], '');
+    }
 
     console.groupCollapsed('%c Taski w kalendarzu', info);
     console.log("%c Fake'owe taski dodawane są w każdym miesiącu do tych samych dni.", info);

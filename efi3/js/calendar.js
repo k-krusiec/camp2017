@@ -263,8 +263,8 @@ var CalendarModule = (function () {
     }
 
     console.groupCollapsed('%c Taski w kalendarzu', info);
-    console.log("%c Fake'owe taski dodawane są w każdym miesiącu do tych samych dni.", info);
-    console.log("%c Docelowo powinny być zaciągane z API.", info);
+    console.log("%c Taski i dni są ustalane losowo", info);
+    console.log("%c Docelowo taski powinny być zaciągane z API.", info);
     console.groupEnd();
   }
 

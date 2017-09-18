@@ -12,8 +12,23 @@
   .set-range {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    height: 150px;
+    align-items: baseline;
+    padding: 60px 0;
+    a {
+      width: 120px;
+      padding: 7px 0;
+      margin: 0 10px;
+      border-radius: 5px;
+      background: $blue-light;
+      text-transform: uppercase;
+      font-size: 18px;
+      &:hover {
+        background: darken($blue-light, 10%);
+      }
+      &:not(:first-of-type):hover {
+        background: $blue-light;
+      }
+    }
   }
 
   .calendar-box {

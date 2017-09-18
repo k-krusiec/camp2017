@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   var calendarContainer = document.querySelector('.calendar-main'); // znajdź cały kontener (kalendarz + settingsy)
+
   CalendarModule.init({calendarContainer: calendarContainer}); //przekarz do funckji init w CalendarModule jako parametr _options
 });
 
@@ -15,6 +16,42 @@ var CalendarModule = (function () {
     'background: #dcedc8',
     'color: black'
   ].join(';');
+
+  const info = [
+    'display: block',
+    'padding: 2px 10px',
+    'border-radius: 5px',
+    'background: #eaeaea',
+    'color: black'
+  ].join(';');
+
+  //fake'owe taski - docelowo zaciągane z API
+  var fakeTasks = {
+    item1: {
+      tag: 'pink',
+      text: 'loan instalment'
+    },
+    item2: {
+      tag: 'pink',
+      text: 'Credit card repayment'
+    },
+    item3: {
+      tag: 'pink',
+      text: 'Iwona Baranowska money transfer'
+    },
+    item4: {
+      tag: 'pink',
+      text: 'Car Leasing instalment'
+    },
+    item5: {
+      tag: 'green',
+      text: 'TAX transfer'
+    },
+    item6: {
+      tag: 'green',
+      text: 'Invoice'
+    }
+  }
 
   var dayPattern = function (num, type) {
     var dayDraft = document.createElement('div');
@@ -36,7 +73,25 @@ var CalendarModule = (function () {
       dayDraft.classList.add('different-month');
     }
 
-    return {dayDraft};
+    return {
+      dayDraft : dayDraft
+    };
+  }
+
+  var taskPattern = function (tag, text) {
+    var task = document.createElement('p');
+
+    task.innerText = text;
+    task.classList.add('task');
+    if (tag.toUpperCase() === 'PINK') {
+      task.classList.add('pink');
+    } else {
+      task.classList.add('green');
+    }
+
+    return {
+      task: task
+    };
   }
 
   var prepareCalGrid = function (cal, date, wasChange) {
@@ -59,7 +114,9 @@ var CalendarModule = (function () {
       container = cal.children[1];
     }
 
-    return {container : container};
+    return {
+      container : container
+    };
   }
 
   var prepareCalData = function (date) {
@@ -78,6 +135,7 @@ var CalendarModule = (function () {
     //dodaj tygodnie
     for (var i = 0, l = date.numOfWeeks; i < l; i++) {
       var week = document.createElement('div');
+
       week.className = 'cal-week';
       week.dataset.index = i;
       newContainer.insertAdjacentElement('beforeend',week);
@@ -104,15 +162,18 @@ var CalendarModule = (function () {
 
       if (i === 6) {day.classList.add('sunday');} //dodaj klasę sunday do niedzieli
 
-      if (dayNumber === date.activeDay) {day.classList.add('active');}
+      if (dayNumber === date.activeDay) {day.classList.add('active');} //ustaw ramkę na dzień aktywny (dziś)
     }
 
-    return {remainingDays};
+    return {
+      remainingDays : remainingDays
+    };
   }
 
   var fillMiddleWeeks = function (date, remainingDays, newContainer) {
     for (var i = 1; i < date.numOfWeeks - 1; i++) {
       for (var j = 0; j < 7; j++) { //od drugiego tygodnia to przedostatniego
+
         var dayNumber = date.numOfDays - remainingDays + 1;
         var day = dayPattern(dayNumber, 'regular').dayDraft;
 
@@ -120,13 +181,15 @@ var CalendarModule = (function () {
 
         if (j === 6) {day.classList.add('sunday');} //dodaj klasę sunday do niedzieli
 
-        if (dayNumber === date.activeDay) {day.classList.add('active');}
+        if (dayNumber === date.activeDay) {day.classList.add('active');} //ustaw ramkę na dzień aktywny (dziś)
 
         remainingDays--;
       }
     }
 
-    return {remainingDays};
+    return {
+      remainingDays : remainingDays
+    };
   }
 
   var fillLastWeek = function (date, remainingDays, newContainer) {
@@ -134,6 +197,7 @@ var CalendarModule = (function () {
       var dayNumber = date.numOfDays - remainingDays + 1;
       var day = dayPattern(dayNumber, 'regular').dayDraft;
       var lastMonthDay = dayPattern('następny' + (i+1), 'last').dayDraft;
+
       if (i < dayNumber && dayNumber !== date.numOfDays + 1) {
         newContainer.children[date.numOfWeeks-1].insertAdjacentElement('beforeend', day);
         remainingDays--;
@@ -143,10 +207,12 @@ var CalendarModule = (function () {
 
       if (i === 6) {day.classList.add('sunday');} //dodaj klasę sunday do niedzieli
 
-      if (dayNumber === date.activeDay) {day.classList.add('active');}
+      if (dayNumber === date.activeDay) {day.classList.add('active');} //ustaw ramkę na dzień aktywny (dziś)
     }
 
-    return {remainingDays};
+    return {
+      remainingDays : remainingDays
+    };
   }
 
   var setActiveDay = function (date) {
@@ -161,18 +227,42 @@ var CalendarModule = (function () {
     }
   }
 
+  var insertTask = function (item, target, additionalText) {
+    var tag = fakeTasks[item].tag
+    var text = fakeTasks[item].text
+    target.insertAdjacentElement('beforeend', taskPattern(tag, text + additionalText).task)
+  }
+
+  var setDayTasks = function (date) {
+    var days = options.calendar.querySelectorAll('.regular');
+    var item6AddText = '123/' + date.year;
+
+    insertTask('item1', days[0], '');
+    insertTask('item5', days[0], '');
+    insertTask('item6', days[0], item6AddText);
+    insertTask('item2', days[10], '');
+    insertTask('item3', days[16], '');
+    insertTask('item4', days[20], '');
+
+    console.groupCollapsed('%c Taski w kalendarzu', info);
+    console.log("%c Fake'owe taski dodawane są w każdym miesiącu do tych samych dni.", info);
+    console.log("%c Docelowo powinny być zaciągane z API.", info);
+    console.groupEnd();
+  }
+
   var generateCalendar = function (cal, date, wasChange) {
     var remainingDays = date.numOfDays;
     var newContainer;
     var newFirstDay;
     var numOfWeeks;
 
-
     //wywalam default kontener lub stary kontener, dodaję nowy kontener
     newContainer = prepareCalGrid(cal, date, wasChange).container;
 
     //ustalam nowy pierwszy dzień (poniedziałek) i liczbę tygodni
     prepareCalData(date);
+
+    //zaznaczam aktywny dzień (dziś)
     setActiveDay(date);
 
     //dodaję tygodnie do kontenera
@@ -187,7 +277,7 @@ var CalendarModule = (function () {
     //dodaj dni do ostatniego tygodnia
     remainingDays = fillLastWeek(date, remainingDays, newContainer).remainingDays;
 
-
+    setDayTasks(date);
 
     if (remainingDays !== 0) {
       console.warn('Wystąpił błąd przy generowaniu kalendarza!');
@@ -267,7 +357,6 @@ var CalendarModule = (function () {
     var inputs = options.calendar.querySelectorAll('.range span');
     var cal = options.calendar.querySelector('.calendar-box');
     var date = getTodaysDate();
-
     var forEach = function (array, callback, scope) {
       for (var i = 0; i < array.length; i++) {
         callback.call(scope, i, array[i]);
@@ -307,7 +396,7 @@ var CalendarModule = (function () {
     };
 
     if ( _options.calendarContainer === null || _options.calendarContainer === undefined || _options.calendarContainer === 0 ) {
-      console.warn('CalendarModule: Źle przekazany kalendarz');
+      console.warn('CalendarModule: Źle przekazany kalendarz!');
       return false;
     }
 
@@ -315,54 +404,10 @@ var CalendarModule = (function () {
   };
 
   return {
-    init: init
+    init : init
   };
 
 })();
-
-
-//data
-// function myFunction() {
-//   var today = new Date();
-//   var month = today.getMonth();
-//   console.log(daysInMonth(month + 1, today.getFullYear()))
-// }
-//
-// function daysInMonth(month,year) {
-//   return new Date(year, month, 0).getDate();
-// }
-//     myFunction();
-
-
-// var tempDateFromSite = 'June 1, 1995';
-// var tempTodayDateFromSite = 'July 16, 2017';
-//
-// var getNumOfDaysInMonth = function (month, year) {
-//   return new Date(year, month, 0).getDate();
-// }
-//
-// var getDateParams = function (date) {
-//   console.log(date);
-//   var day = new Date(tempDateFromSite);
-//
-//
-// };
-//
-// var getDate = function () {
-//   // pamiętaj! niedziela to dzień 0, sobota to dzień 6!
-//   var date = new Date(tempTodayDateFromSite),
-//       dateObject = {
-//         day : date.getDay(),
-//         month : date.getMonth() + 1,
-//         year : date.getFullYear()
-//       };
-//       console.log(date);
-//
-//   console.log(getNumOfDaysInMonth(dateObject.month, dateObject.year));
-//   getDateParams(dateObject);
-// };
-
-
 
 //events
 // (function () {

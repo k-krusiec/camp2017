@@ -71,5 +71,41 @@
       background: lighten($silver, 10%);
       color: lighten($black, 60%);
     }
+    .task {
+      width: 140px;
+      padding-left: 20px;
+      font-weight: 300;
+      font-size: 1.2em;
+      color: $black;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .green {
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: $green;
+      }
+    }
+    .pink {
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: $lipstick;
+      }
+    }
   }
 }

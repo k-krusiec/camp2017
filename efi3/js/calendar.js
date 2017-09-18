@@ -143,26 +143,34 @@ var CalendarModule = (function () {
   }
 
   var fillFirstWeek = function (date, remainingDays, newContainer) {
+    var counter = 7;
     for (var i = 0; i < 7; i++) { //pierwszy tydzień
       var dayNumber = date.numOfDays - remainingDays + 1;
       var day = dayPattern(dayNumber, 'regular').dayDraft;
       var lastMonthDay = dayPattern('poprzedni' + (i+1), 'last').dayDraft;
+      var numOfDaysLastMonth = new Date(date.year, date.month.number, 0).getDate();
 
       if (date.firstDay !== 0) {
-        if (i < date.firstDay) {
-          newContainer.children[0].insertAdjacentElement('beforeend', lastMonthDay);
-        } else {
+        if (i >= date.firstDay) {
           newContainer.children[0].insertAdjacentElement('beforeend', day);
           remainingDays--;
+          counter--;
         }
       } else {
         newContainer.children[0].insertAdjacentElement('beforeend', day);
         remainingDays--;
+        counter--;
       }
 
       if (i === 6) {day.classList.add('sunday');} //dodaj klasę sunday do niedzieli
 
       if (dayNumber === date.activeDay) {day.classList.add('active');} //ustaw ramkę na dzień aktywny (dziś)
+    }
+
+    for (var i = counter; i > 0; i--) {
+      lastMonthDay = dayPattern(numOfDaysLastMonth, 'last').dayDraft;
+      newContainer.children[0].insertAdjacentElement('afterbegin', lastMonthDay);
+      numOfDaysLastMonth--;
     }
 
     return {
@@ -193,21 +201,29 @@ var CalendarModule = (function () {
   }
 
   var fillLastWeek = function (date, remainingDays, newContainer) {
+    //ile zostanie pustych miejsc w które można wstawić dni z następnego miesiąca?
+    var emptyFields = 7;
+
     for (var i = 0; i < 7; i++) { //ostatni tydzień
       var dayNumber = date.numOfDays - remainingDays + 1;
       var day = dayPattern(dayNumber, 'regular').dayDraft;
-      var lastMonthDay = dayPattern('następny' + (i+1), 'last').dayDraft;
+      var lastMonthDay = dayPattern('następny' + (dayNumber), 'last').dayDraft;
 
       if (i < dayNumber && dayNumber !== date.numOfDays + 1) {
         newContainer.children[date.numOfWeeks-1].insertAdjacentElement('beforeend', day);
         remainingDays--;
-      } else {
-        newContainer.children[date.numOfWeeks-1].insertAdjacentElement('beforeend', lastMonthDay);
+        emptyFields--;
       }
 
       if (i === 6) {day.classList.add('sunday');} //dodaj klasę sunday do niedzieli
 
       if (dayNumber === date.activeDay) {day.classList.add('active');} //ustaw ramkę na dzień aktywny (dziś)
+    }
+
+    //wypełnij ostatni tydzień dniami z następnego miesiąca
+    for (var i = 0; i < emptyFields; i++) {
+      lastMonthDay = dayPattern(i+1, 'last').dayDraft;
+      newContainer.children[date.numOfWeeks-1].insertAdjacentElement('beforeend', lastMonthDay);
     }
 
     return {
@@ -235,6 +251,7 @@ var CalendarModule = (function () {
 
   var setDayTasks = function (date) {
     var days = options.calendar.querySelectorAll('.regular');
+    //jakiś dodatkowy tekst
     var item6AddText = '123/' + date.year;
 
     insertTask('item1', days[0], '');
@@ -277,6 +294,7 @@ var CalendarModule = (function () {
     //dodaj dni do ostatniego tygodnia
     remainingDays = fillLastWeek(date, remainingDays, newContainer).remainingDays;
 
+    //dodaję fake'owe taski do kalendarza
     setDayTasks(date);
 
     if (remainingDays !== 0) {
